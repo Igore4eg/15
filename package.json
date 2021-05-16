@@ -19,7 +19,16 @@
   "homepage": "https://github.com/Igore4eg/15#readme",
   "dependencies": {
     "browser-sync": "^2.26.14",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-debug": "^4.0.0",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-svg-sprite": "^1.5.0"
   },
   "devDependencies": {
     "gulp-sass": "^4.1.0",
