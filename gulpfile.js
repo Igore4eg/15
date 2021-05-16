@@ -17,21 +17,18 @@ const { src, dest, parallel, series, watch } = gulp;
 
 const isDev = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
-function startwatch  () {
-	gulp.watch('src/styles/*.sass', gulp.series('styles'));
-	gulp.watch('src/**/*.html').on('change', browserSync.reload);
-};
-
 function serve(){
     browserSync.init({
-        server: 'source',
+        server: 'src',
         notify: false,
         online: true
     });
+    gulp.watch('src/styles/*.sass', gulp.series('styles'));
+	gulp.watch('src/**/*.html').on('change', browserSync.reload);
 }
 
 function styles(){
-    return src('src/sass/main.scss')
+    return src('src/styles/main.sass')
         .pipe(gulpif(isDev, sourcemaps.init()))
         .pipe(sass()) 
         .pipe(debug({title: 'sass'}))
@@ -39,7 +36,7 @@ function styles(){
         .pipe(cleancss( { level: { 1: { specialComments: 0 } } } ))
         .pipe(gulpif(isDev, sourcemaps.write()))
         .pipe(debug({title: 'sourcemap'}))
-        .pipe(dest('build/styles/')) 
+        .pipe(dest('src/styles/')) 
         .pipe(browserSync.stream())
     }
 
@@ -58,6 +55,5 @@ function imgaeMin(){
 
 exports.images = images;
 exports.imgaeMin = imgaeMin;
-exports.startwatch = startwatch;
 exports.serve = serve;
 exports.styles = styles;
