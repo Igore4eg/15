@@ -1,6 +1,6 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
-  order: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].sort(function() { return Math.random()-.5; }).concat(0),
+  order: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]./* sort(function() { return Math.random()-.5; }).*/concat(0),
   hole: 15,
   isCompleted: function() {
     return !this.order.some(function(item, i) {
@@ -38,7 +38,7 @@ draw();
 function draw() {
   for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
     tile.textContent = fifteen.order[i];
-    tile.style.backgroundImage = 'url(img/'+fifteen.order[i]+'.jpg)';
+    tile.style.backgroundImage = 'url(img/' + fifteen.order[i] + '.jpg)';
     tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
   } 
 }
