@@ -38,6 +38,7 @@ draw();
 function draw() {
   for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
     tile.textContent = fifteen.order[i];
+    //tile.style.backgroundImage = fifteen.order[url(img/i.jpg)];
     tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
   } 
 }
