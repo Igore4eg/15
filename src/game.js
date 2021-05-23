@@ -18,6 +18,31 @@ const fifteen = {
   swap: function(i1, i2) { let t = this.order[i1]; this.order[i1] = this.order[i2]; this.order[i2] = t; },
 };
 
+
+
+const importImage = document.body.appendChild(document.createElement('input'));
+importImage.type = "file";
+importImage.value = "Download";
+importImage.id = "input";
+importImage.addEventListener("click", handleFiles);
+function handleFiles(importImage) {
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i];
+
+    if (!file.type.startsWith('image/')){ continue }
+
+    var img = document.createElement("img");
+    img.classList.add("obj");
+    img.file = file;
+    preview.appendChild(img); // Предполагается, что "preview" это div, в котором будет отображаться содержимое.
+
+    var reader = new FileReader();
+    reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+    reader.readAsDataURL(file);
+  }
+}
+
+
 const box = document.body.appendChild(document.createElement('div'));
   for (let i = 0; i < 16; i++) {
     box.appendChild(document.createElement('div'))
