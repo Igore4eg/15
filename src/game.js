@@ -1,6 +1,6 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
-  order: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]./* sort(function() { return Math.random()-.5; }).*/concat(0),
+  order: [ ...[ ...Array(15) ].map((_, i) => i+1), 0 ],
   hole: 15,
   isCompleted: function() {
     return !this.order.some(function(item, i) {
@@ -22,27 +22,34 @@ const fifteen = {
 
 const importImage = document.body.appendChild(document.createElement('input'));
 importImage.type = "file";
-importImage.value = "Download";
-importImage.id = "input";
-importImage.addEventListener("click", handleFiles);
-function handleFiles(importImage) {
-  for (var i = 0; i < files.length; i++) {
-    var file = files[i];
+importImage.id = 'inputFile';
 
-    if (!file.type.startsWith('image/')){ continue }
+let file    = document.querySelector('#inputFile').files[0];
+let reader  = new FileReader();
 
-    var img = document.createElement("img");
-    img.classList.add("obj");
-    img.file = file;
-    preview.appendChild(img); // Предполагается, что "preview" это div, в котором будет отображаться содержимое.
-
-    var reader = new FileReader();
-    reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-    reader.readAsDataURL(file);
-  }
-}
+let image = new Image();
+image.onloadend = cutImageUp;
+image.src = reader.result;
 
 
+function cutImageUp() {
+    for(let x = 0; x < 4; ++x) {
+        for(let y = 0; y < 4; ++y) {
+            let canvas = document.createElement('canvas');
+            canvas.width = widthOfOnePiece/4;
+            canvas.height = heightOfOnePiece/4;
+            let context = canvas.getContext('2d');
+            context.drawImage(image, x * widthOfOnePiece, y * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas.width, canvas.height);
+            for(let i =0; i<16; i++){
+              order[i] = canvas.toDataURL();
+            }
+          }
+    }
+
+} 
+let anImageElement = document.getElementById('myImageElementInTheDom');
+    anImageElement.src = order[0];
+/* 
 const box = document.body.appendChild(document.createElement('div'));
   for (let i = 0; i < 16; i++) {
     box.appendChild(document.createElement('div'))
@@ -67,3 +74,4 @@ function draw() {
     tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
   } 
 }
+ */
