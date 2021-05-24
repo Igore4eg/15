@@ -30,6 +30,7 @@ let reader  = new FileReader();
 let image = new Image();
 image.onloadend = fifteen.cutImageUp(order);
 image.src = reader.result;
+//reader.readAsDataURL(file);
 
 
 function cutImageUp(array) {
