@@ -28,11 +28,11 @@ let file    = document.querySelector('#inputFile').files[0];
 let reader  = new FileReader();
 
 let image = new Image();
-image.onloadend = cutImageUp;
+image.onloadend = fifteen.cutImageUp(order);
 image.src = reader.result;
 
 
-function cutImageUp() {
+function cutImageUp(array) {
     for(let x = 0; x < 4; ++x) {
         for(let y = 0; y < 4; ++y) {
             let canvas = document.createElement('canvas');
@@ -41,7 +41,7 @@ function cutImageUp() {
             let context = canvas.getContext('2d');
             context.drawImage(image, x * widthOfOnePiece, y * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas.width, canvas.height);
             for(let i =0; i<16; i++){
-              order[i] = canvas.toDataURL();
+              array[i] = canvas.toDataURL();
             }
           }
     }
@@ -49,6 +49,8 @@ function cutImageUp() {
 } 
 let anImageElement = document.getElementById('myImageElementInTheDom');
     anImageElement.src = order[0];
+
+    
 /* 
 const box = document.body.appendChild(document.createElement('div'));
   for (let i = 0; i < 16; i++) {
