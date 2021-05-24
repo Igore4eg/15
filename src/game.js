@@ -23,22 +23,44 @@ const fifteen = {
 const importImage = document.body.appendChild(document.createElement('input'));
 importImage.type = "file";
 importImage.id = 'inputFile';
+importImage.onchange = onChange;
 
-let file    = document.querySelector('#inputFile').files[0];
+function onChange() {
+  let file    = document.querySelector('#inputFile').files[0];
+  var reader = new FileReader();
+  reader.onload = function() {
+    console.log(file.size)
+  };
+
+  reader.readAsText(file);
+}
+
+//let file    = document.querySelector('#inputFile').files[0];
 let reader  = new FileReader();
 
 let image = new Image();
-image.onloadend = fifteen.cutImageUp(order);
-image.src = reader.result;
+
+reader.onload = function () {
+  image.src = reader.result;
+  console.log(image.src);
+  reader.readAsDataURL(file);
+}
+
+
+
+//console.log(image.width);
+
+//image.onloadend = cutImageUp();
+//image.src = reader.result;
 //reader.readAsDataURL(file);
 
-
-function cutImageUp(array) {
+function cutImageUp() {
+  let array = [];
     for(let x = 0; x < 4; ++x) {
         for(let y = 0; y < 4; ++y) {
             let canvas = document.createElement('canvas');
-            canvas.width = widthOfOnePiece/4;
-            canvas.height = heightOfOnePiece/4;
+            canvas.width = widthOfOnePiece;
+            canvas.height = heightOfOnePiece;
             let context = canvas.getContext('2d');
             context.drawImage(image, x * widthOfOnePiece, y * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas.width, canvas.height);
             for(let i =0; i<16; i++){
