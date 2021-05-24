@@ -47,10 +47,8 @@ function cutImageUp(array) {
     }
 
 } 
-let anImageElement = document.getElementById('myImageElementInTheDom');
-    anImageElement.src = order[0];
 
-    
+
 /* 
 const box = document.body.appendChild(document.createElement('div'));
   for (let i = 0; i < 16; i++) {
