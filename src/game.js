@@ -23,36 +23,22 @@ const fifteen = {
 const importImage = document.body.appendChild(document.createElement('input'));
 importImage.type = "file";
 importImage.id = 'inputFile';
-importImage.onchange = onChange;
-
-function onChange() {
-  let file    = document.querySelector('#inputFile').files[0];
-  var reader = new FileReader();
-  reader.onload = function() {
-    console.log(file.size)
-  };
-
-  reader.readAsText(file);
-}
-
-//let file    = document.querySelector('#inputFile').files[0];
-let reader  = new FileReader();
+importImage.onchange = inputFile;
 
 let image = new Image();
 
-reader.onload = function () {
-  image.src = reader.result;
-  console.log(image.src);
+
+function inputFile() {
+  let file    = document.querySelector('#inputFile').files[0];
+  let reader = new FileReader();
   reader.readAsDataURL(file);
+  reader.onloadend = function() {
+    image.src = reader.result;
+  };
+  
 }
 
 
-
-//console.log(image.width);
-
-//image.onloadend = cutImageUp();
-//image.src = reader.result;
-//reader.readAsDataURL(file);
 
 function cutImageUp() {
   let array = [];
