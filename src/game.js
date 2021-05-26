@@ -1,6 +1,6 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
-  order: [ ...[ ...Array(15) ].map((_, i) => i+1), 0 ],
+  order: [],
   hole: 15,
   isCompleted: function() {
     return !this.order.some(function(item, i) {
@@ -34,36 +34,30 @@ function inputFile() {
   reader.readAsDataURL(file);
   reader.onload = function() {
     image.src = reader.result;
-    console.log(image.src)
-  };
-  
-  cutImageUp(image);
+    console.log(image.width);
+    cutImageUp(image);
+    draw();
+  }; 
 }
 
-let array = [];
+
 
 function cutImageUp(elem) {
-  for(let x = 1; x < 5; x++) {
-      for(let y = 1; y < 5; y++) {
+  for(let x = 0; x < 4; ++x) {
+      for(let y = 0; y < 4; ++y) {
           let canvas = document.createElement('canvas');
           canvas.width = elem.width / 4;
           canvas.height = elem.height / 4;
           let context = canvas.getContext('2d');
           context.drawImage(elem, x * canvas.width, y * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
-          for(let i =0; i<16; i++){
-            array[i] = canvas.toDataURL();
-          }
+          fifteen.order.push(canvas.toDataURL());
         }
   }
-  
-  console.log(array[0]);
+  console.log(fifteen.order[3]);
+  console.log(fifteen.order[6]);
 } 
 
 
-
-
-
-/* 
 const box = document.body.appendChild(document.createElement('div'));
   for (let i = 0; i < 16; i++) {
     box.appendChild(document.createElement('div'))
@@ -79,13 +73,12 @@ window.addEventListener('keydown', function(e) {
   }
 });
 
-draw();
+
 
 function draw() {
   for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
-    tile.textContent = fifteen.order[i];
-    tile.style.backgroundImage = 'url(img/' + fifteen.order[i] + '.jpg)';
+    tile.textContent = i + 1;
+    tile.style.backgroundImage = 'fifteen.order[i]';
     tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
   } 
 }
- */
