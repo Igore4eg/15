@@ -49,12 +49,11 @@ function cutImageUp(elem) {
           canvas.width = elem.width / 4;
           canvas.height = elem.height / 4;
           let context = canvas.getContext('2d');
-          context.drawImage(elem, x * canvas.width, y * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
+          context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
           fifteen.order.push(canvas.toDataURL());
         }
   }
-  console.log(fifteen.order[3]);
-  console.log(fifteen.order[6]);
+
 } 
 
 
