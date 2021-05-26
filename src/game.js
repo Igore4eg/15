@@ -66,7 +66,8 @@ const box = document.body.appendChild(document.createElement('div'));
 
 window.addEventListener('keydown', function(e) {
   if (fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]])) {
-      draw(); if (fifteen.isCompleted()) {
+      draw(); 
+      if (fifteen.isCompleted()) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
       }
@@ -78,7 +79,9 @@ window.addEventListener('keydown', function(e) {
 function draw() {
   for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
     tile.textContent = i + 1;
-    tile.style.backgroundImage = 'fifteen.order[i]';
+    tile.style.backgroundImage = "url('" + fifteen.order[i] + "')";
+    tile.style.width = '83px';
+    tile.style.height = '83px';
     tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
   } 
 }
