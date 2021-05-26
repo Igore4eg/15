@@ -32,30 +32,35 @@ function inputFile() {
   let file    = document.querySelector('#inputFile').files[0];
   let reader = new FileReader();
   reader.readAsDataURL(file);
-  reader.onloadend = function() {
+  reader.onload = function() {
     image.src = reader.result;
+    console.log(image.src)
   };
   
+  cutImageUp(image);
 }
 
+let array = [];
 
-
-function cutImageUp() {
-  let array = [];
-    for(let x = 0; x < 4; ++x) {
-        for(let y = 0; y < 4; ++y) {
-            let canvas = document.createElement('canvas');
-            canvas.width = widthOfOnePiece;
-            canvas.height = heightOfOnePiece;
-            let context = canvas.getContext('2d');
-            context.drawImage(image, x * widthOfOnePiece, y * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas.width, canvas.height);
-            for(let i =0; i<16; i++){
-              array[i] = canvas.toDataURL();
-            }
+function cutImageUp(elem) {
+  for(let x = 1; x < 5; x++) {
+      for(let y = 1; y < 5; y++) {
+          let canvas = document.createElement('canvas');
+          canvas.width = elem.width / 4;
+          canvas.height = elem.height / 4;
+          let context = canvas.getContext('2d');
+          context.drawImage(elem, x * canvas.width, y * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
+          for(let i =0; i<16; i++){
+            array[i] = canvas.toDataURL();
           }
-    }
-
+        }
+  }
+  
+  console.log(array[0]);
 } 
+
+
+
 
 
 /* 
