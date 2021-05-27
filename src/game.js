@@ -34,11 +34,13 @@ function inputFile() {
   reader.readAsDataURL(file);
   reader.onload = function() {
     image.src = reader.result;
-    console.log(image.width);
     cutImageUp(image);
     draw();
+    console.log(image.width)
+    box.width = image.width;
   }; 
 }
+
 
 
 
@@ -58,6 +60,7 @@ function cutImageUp(elem) {
 
 
 const box = document.body.appendChild(document.createElement('div'));
+box.setAttribute("id", "box")
   for (let i = 0; i < 16; i++) {
     box.appendChild(document.createElement('div'))
   };
@@ -76,7 +79,7 @@ window.addEventListener('keydown', function(e) {
 
 
 function draw() {
-  for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
+    for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
     tile.textContent = i + 1;
     tile.style.backgroundImage = "url('" + fifteen.order[i] + "')";
     tile.style.width = '83px';
