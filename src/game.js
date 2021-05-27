@@ -31,14 +31,15 @@ let image = new Image();
 function inputFile() {
   let file    = document.querySelector('#inputFile').files[0];
   let reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = function() {
+  
+  reader.onloadend = function() {
     image.src = reader.result;
     cutImageUp(image);
     draw();
     console.log(image.width)
-    box.width = image.width;
-  }; 
+   
+  };
+  reader.readAsDataURL(file); 
 }
 
 
@@ -61,6 +62,7 @@ function cutImageUp(elem) {
 
 const box = document.body.appendChild(document.createElement('div'));
 box.setAttribute("id", "box")
+
   for (let i = 0; i < 16; i++) {
     box.appendChild(document.createElement('div'))
   };
@@ -82,8 +84,11 @@ function draw() {
     for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
     tile.textContent = i + 1;
     tile.style.backgroundImage = "url('" + fifteen.order[i] + "')";
-    tile.style.width = '83px';
-    tile.style.height = '83px';
+    let boxWidth = image.width + 60;
+    console.log(boxWidth);
+    box.style.width = boxWidth + "px";
+    tile.style.width = image.width/4 + "px";
+    tile.style.height = image.height/4 + "px";;
     tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
   } 
 }
