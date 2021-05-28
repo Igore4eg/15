@@ -1,12 +1,12 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
-  order: [],
+  order: [ ...[ ...Array(15) ].map((_, i) => i+1)],
   hole: 15,
-  isCompleted: function() {
+  /*isCompleted: function() {
     return !this.order.some(function(item, i) {
       return item > 0 && item-1 !== i; 
     }); 
-  },
+  },*/
   go: function(move) {
     let index = this.hole + move;
     if (!this.order[index]) return false;
@@ -14,11 +14,16 @@ const fifteen = {
       if (Math.floor(this.hole/4) !== Math.floor(index/4)) return false;
     this.swap(index, this.hole);
     this.hole = index;
-    return true; },
-  swap: function(i1, i2) { let t = this.order[i1]; this.order[i1] = this.order[i2]; this.order[i2] = t; },
+    return true; 
+  },
+  swap: function(i1, i2) { 
+    let t = this.order[i1]; 
+    this.order[i1] = this.order[i2]; 
+    this.order[i2] = t; 
+  },
 };
 
-
+let cutImageArray = [];
 
 const importImage = document.body.appendChild(document.createElement('input'));
 importImage.type = "file";
@@ -35,6 +40,8 @@ function inputFile() {
   reader.onloadend = function() {
     image.src = reader.result;
     cutImageUp(image);
+    cutImageArray.length = 15;
+    cutImageArray.concat(0);
     draw();
     console.log(image.width)
    
@@ -53,7 +60,8 @@ function cutImageUp(elem) {
           canvas.height = elem.height / 4;
           let context = canvas.getContext('2d');
           context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
-          fifteen.order.push(canvas.toDataURL());
+          cutImageArray.push(canvas.toDataURL());
+
         }
   }
 
@@ -82,10 +90,9 @@ window.addEventListener('keydown', function(e) {
 
 function draw() {
     for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
-    tile.textContent = i + 1;
-    tile.style.backgroundImage = "url('" + fifteen.order[i] + "')";
+    tile.textContent = fifteen.order[i];
+    tile.style.backgroundImage = "url('" + cutImageArray[i] + "')";
     let boxWidth = image.width + 60;
-    console.log(boxWidth);
     box.style.width = boxWidth + "px";
     tile.style.width = image.width/4 + "px";
     tile.style.height = image.height/4 + "px";;
