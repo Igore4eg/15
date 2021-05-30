@@ -23,8 +23,7 @@ function serve(){
         notify: false,
         online: true
     });
-    gulp.watch('src/styles/*.sass', gulp.series('styles'));
-	gulp.watch('src/**/*.html').on('change', browserSync.reload);
+    browserSync.watch('src/**/*.*').on('change', browserSync.reload);
 }
 
 function styles(){

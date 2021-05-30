@@ -23,33 +23,35 @@ const fifteen = {
   },
 };
 
+let image = new Image();
+
 let cutImageArray = [];
 
 const importImage = document.body.appendChild(document.createElement('input'));
 importImage.type = "file";
 importImage.id = 'inputFile';
-importImage.onchange = inputFile;
-
-let image = new Image();
-
+importImage.onchange = startGame;
 
 function inputFile() {
-  let file    = document.querySelector('#inputFile').files[0];
+  let file = document.querySelector('#inputFile').files[0];
   let reader = new FileReader();
-  
+
   reader.onloadend = function() {
     image.src = reader.result;
-    cutImageUp(image);
-    cutImageArray.length = 15;
-    cutImageArray.concat(0);
-    draw();
-    console.log(image.width)
-   
+    console.log('reader done');
+    
   };
-  reader.readAsDataURL(file); 
+  reader.readAsDataURL(file);
 }
 
+function startGame(){
+  inputFile();
+  console.log("input 2 confirm");
+  cutImageUp(image);
+  draw();
+  console.log(image.width);
 
+}
 
 
 function cutImageUp(elem) {
@@ -61,17 +63,17 @@ function cutImageUp(elem) {
           let context = canvas.getContext('2d');
           context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
           cutImageArray.push(canvas.toDataURL());
-
-        }
+          console.log(cutImageArray.length);
+          }
   }
-
+  cutImageArray.length = 15;
+  cutImageArray.concat(0);
 } 
 
 
 const box = document.body.appendChild(document.createElement('div'));
 box.setAttribute("id", "box")
-
-  for (let i = 0; i < 16; i++) {
+for (let i = 0; i < 16; i++) {
     box.appendChild(document.createElement('div'))
   };
 
@@ -87,7 +89,6 @@ window.addEventListener('keydown', function(e) {
 });
 
 
-
 function draw() {
     for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
     tile.textContent = fifteen.order[i];
@@ -96,6 +97,6 @@ function draw() {
     box.style.width = boxWidth + "px";
     tile.style.width = image.width/4 + "px";
     tile.style.height = image.height/4 + "px";;
-    tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
+    //tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
   } 
 }
