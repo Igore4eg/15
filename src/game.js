@@ -48,31 +48,35 @@ function inputFile() {
 async function startGame(){
   try {
     image.src = await inputFile();
+    console.log("input 2 confirm", image.src);
+    cutImageArray.length = 0;
+    await cutImageUp(image);
+    cutImageArray.length = 15;
+    cutImageArray.concat(0);
+    draw();
+    console.log(image.width);
   }catch(e) {
     console.log(e);
   }
-  console.log("input 2 confirm");
-  cutImageUp(image);
-  draw();
-  console.log(image.width);
-
 }
 
 
 function cutImageUp(elem) {
-  for(let x = 0; x < 4; ++x) {
-      for(let y = 0; y < 4; ++y) {
-          let canvas = document.createElement('canvas');
-          canvas.width = elem.width / 4;
-          canvas.height = elem.height / 4;
-          let context = canvas.getContext('2d');
-          context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
-          cutImageArray.push(canvas.toDataURL());
-          console.log(cutImageArray.length);
-          }
-  }
-  cutImageArray.length = 15;
-  cutImageArray.concat(0);
+  
+  return new Promise((resolve, reject) => {
+    for(let x = 0; x < 4; ++x) {
+        for(let y = 0; y < 4; ++y) {
+            let canvas = document.createElement('canvas');
+            canvas.width = elem.width / 4;
+            canvas.height = elem.height / 4;
+            let context = canvas.getContext('2d');
+            context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
+            resolve (cutImageArray.push(canvas.toDataURL()));
+            console.log(canvas.toDataURL());
+            }
+    }
+  });
+
 } 
 
 
