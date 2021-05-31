@@ -33,19 +33,24 @@ importImage.id = 'inputFile';
 importImage.onchange = startGame;
 
 function inputFile() {
-  let file = document.querySelector('#inputFile').files[0];
-  let reader = new FileReader();
-
-  reader.onloadend = function() {
-    image.src = reader.result;
-    console.log('reader done');
-    
-  };
-  reader.readAsDataURL(file);
+  return new Promise((resolve, reject) => {
+    let file = document.querySelector('#inputFile').files[0];
+    let reader = new FileReader();
+  
+    reader.onload = function() {
+      resolve(reader.result);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
-function startGame(){
-  inputFile();
+async function startGame(){
+  try {
+    image.src = await inputFile();
+  }catch(e) {
+    console.log(e);
+  }
   console.log("input 2 confirm");
   cutImageUp(image);
   draw();
