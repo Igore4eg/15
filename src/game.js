@@ -38,7 +38,11 @@ function inputFile() {
     let reader = new FileReader();
   
     reader.onload = function() {
-      resolve(reader.result);
+      image.src =  reader.result;
+      image.onload = function() {
+        console.log(this.width);
+      }
+      resolve();
     };
     reader.onerror = reject;
     reader.readAsDataURL(file);
@@ -47,10 +51,10 @@ function inputFile() {
 
 async function startGame(){
   try {
-    image.src = await inputFile();
+    await inputFile();
     console.log("input 2 confirm", image.src);
     cutImageArray.length = 0;
-    await cutImageUp(image);
+    cutImageUp(image);
     cutImageArray.length = 15;
     cutImageArray.concat(0);
     draw();
@@ -62,23 +66,18 @@ async function startGame(){
 
 
 function cutImageUp(elem) {
-  
-  return new Promise((resolve, reject) => {
-    for(let x = 0; x < 4; ++x) {
-        for(let y = 0; y < 4; ++y) {
-            let canvas = document.createElement('canvas');
-            canvas.width = elem.width / 4;
-            canvas.height = elem.height / 4;
-            let context = canvas.getContext('2d');
-            context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
-            console.log(canvas.toDataURL());
-            cutImageArray.push(canvas.toDataURL())
-            
-            }
+  for(let x = 0; x < 4; ++x) {
+    for(let y = 0; y < 4; ++y) {
+      let canvas = document.createElement('canvas');
+      canvas.width = elem.width / 4;
+      canvas.height = elem.height / 4;
+      let context = canvas.getContext('2d');
+      context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
+      console.log(canvas.toDataURL());
+      cutImageArray.push(canvas.toDataURL())
+      
     }
-    resolve ();
-  });
-
+  }
 } 
 
 
