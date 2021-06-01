@@ -41,8 +41,8 @@ function inputFile() {
       image.src =  reader.result;
       image.onload = function() {
         console.log(this.width);
-      }
-      resolve();
+        resolve();
+      } 
     };
     reader.onerror = reject;
     reader.readAsDataURL(file);
@@ -52,13 +52,11 @@ function inputFile() {
 async function startGame(){
   try {
     await inputFile();
-    console.log("input 2 confirm", image.src);
     cutImageArray.length = 0;
     cutImageUp(image);
     cutImageArray.length = 15;
     cutImageArray.concat(0);
     draw();
-    console.log(image.width);
   }catch(e) {
     console.log(e);
   }
@@ -73,9 +71,7 @@ function cutImageUp(elem) {
       canvas.height = elem.height / 4;
       let context = canvas.getContext('2d');
       context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
-      console.log(canvas.toDataURL());
       cutImageArray.push(canvas.toDataURL())
-      
     }
   }
 } 
