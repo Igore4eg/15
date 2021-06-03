@@ -1,6 +1,6 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
-  order: [ ...Array(15) ].map((_, i) => i+1),
+  order: [ ...Array(15) ].map((_, i) => i = {id: i+1, data: any}),
   hole: 15,
   /*isCompleted: function() {
     return !this.order.some(function(item, i) {
@@ -24,8 +24,6 @@ const fifteen = {
 };
 
 let image = new Image();
-
-let cutImageArray = [];
 
 const importImage = document.body.appendChild(document.createElement('input'));
 importImage.type = "file";
@@ -52,10 +50,7 @@ function inputFile() {
 async function startGame(){
   try {
     await inputFile();
-    cutImageArray.length = 0;
     cutImageUp(image);
-    cutImageArray.length = 15;
-    cutImageArray.concat(0);
     draw();
   }catch(e) {
     console.log(e);
@@ -71,7 +66,8 @@ function cutImageUp(elem) {
       canvas.height = elem.height / 4;
       let context = canvas.getContext('2d');
       context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
-      cutImageArray.push(canvas.toDataURL())
+      let item = x+y;
+      order[item].data =  canvas.toDataURL()
     }
   }
 } 
