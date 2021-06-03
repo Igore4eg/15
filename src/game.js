@@ -93,8 +93,8 @@ window.addEventListener('keydown', function(e) {
 
 function draw() {
     for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
-    tile.textContent = fifteen.order[i];
-    tile.style.backgroundImage = "url('" + cutImageArray[i] + "')";
+    tile.textContent = fifteen.order[i].id;
+    tile.style.backgroundImage = "url('`${fifteen.order[i].data}`')";
     let boxWidth = image.width + 60;
     box.style.width = boxWidth + "px";
     tile.style.width = image.width/4 + "px";
