@@ -1,6 +1,6 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
-  order: [],  // ...[ ...Array(15) ].map((_, i) => i+1)
+  order: [ ...Array(15) ].map((_, i) => i+1),
   hole: 15,
   /*isCompleted: function() {
     return !this.order.some(function(item, i) {
