@@ -67,7 +67,7 @@ function cutImageUp(elem) {
       canvas.height = elem.height / 4;
       let context = canvas.getContext('2d');
       context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
-      let item = x*4+y;
+      let item = x * 4 + y;
       fifteen.order[item].data =  canvas.toDataURL()
     }
   }
