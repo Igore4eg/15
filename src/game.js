@@ -1,12 +1,12 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
-  order: [ ...Array(15) ].map((_, i) => i = {id: i+1, data: any}),
+  order: [ ...Array(16) ].map((_, i) => i = {id: i+1, data: i}),
   hole: 15,
-  /*isCompleted: function() {
+  /* isCompleted: function() {
     return !this.order.some(function(item, i) {
       return item > 0 && item-1 !== i; 
     }); 
-  },*/
+  }, */
   go: function(move) {
     let index = this.hole + move;
     if (!this.order[index]) return false;
@@ -30,7 +30,7 @@ importImage.type = "file";
 importImage.id = 'inputFile';
 importImage.onchange = startGame;
 
-function inputFile() {
+async function inputFile() {
   return new Promise((resolve, reject) => {
     let file = document.querySelector('#inputFile').files[0];
     let reader = new FileReader();
@@ -50,6 +50,7 @@ function inputFile() {
 async function startGame(){
   try {
     await inputFile();
+    console.log(fifteen.order)
     cutImageUp(image);
     draw();
   }catch(e) {
@@ -66,8 +67,8 @@ function cutImageUp(elem) {
       canvas.height = elem.height / 4;
       let context = canvas.getContext('2d');
       context.drawImage(elem, y * canvas.width, x * canvas.height, elem.width / 4, elem.height / 4, 0, 0, canvas.width, canvas.height);
-      let item = x+y;
-      order[item].data =  canvas.toDataURL()
+      let item = x*4+y;
+      fifteen.order[item].data =  canvas.toDataURL()
     }
   }
 } 
@@ -92,13 +93,13 @@ window.addEventListener('keydown', function(e) {
 
 
 function draw() {
-    for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
+  for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
     tile.textContent = fifteen.order[i].id;
-    tile.style.backgroundImage = "url('`${fifteen.order[i].data}`')";
+    tile.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     let boxWidth = image.width + 60;
     box.style.width = boxWidth + "px";
     tile.style.width = image.width/4 + "px";
     tile.style.height = image.height/4 + "px";;
-    //tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden';
+    /* tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden'; */
   } 
 }
