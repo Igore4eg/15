@@ -75,10 +75,16 @@ function cutImageUp(elem) {
 
 
 const box = document.body.appendChild(document.createElement('div'));
-box.setAttribute("id", "box")
+box.setAttribute("id", "box");
+box.setAttribute("style", "margin-top: 20px; width: 456px; border: solid 1px transparent;");
 for (let i = 0; i < 16; i++) {
-    box.appendChild(document.createElement('div'))
-  };
+  let outDiv = box.appendChild(document.createElement('div'));
+  outDiv.setAttribute("class", "outerDiv");
+  outDiv.setAttribute("style", "display: inline-block; width: 100px; height: 100px; border: solid 2px gray; margin: 5px; text-align: center; background-color: whitesmoke;");
+  let inDiv = outDiv.appendChild(document.createElement('div'));
+  inDiv.setAttribute("class", "innerDiv");
+};
+
 
 
 window.addEventListener('keydown', function(e) {
@@ -93,13 +99,14 @@ window.addEventListener('keydown', function(e) {
 
 
 function draw() {
-  for (var i = 0, tile; tile = box.childNodes[i], i < 16; i++) { 
-    tile.textContent = fifteen.order[i].id;
-    tile.style.backgroundImage = `url('${fifteen.order[i].data}')`;
-    let boxWidth = image.width + 60;
-    box.style.width = boxWidth + "px";
-    tile.style.width = image.width/4 + "px";
-    tile.style.height = image.height/4 + "px";;
-    /* tile.style.visibility = fifteen.order[i] ? 'visible' : 'hidden'; */
-  } 
+  let boxWidth = image.width + 60;
+  box.style.width = boxWidth + "px";
+  let n = document.querySelector('div.innerDiv');
+  let tile = document.querySelectorAll('div.innerDiv');
+  tile.forEach(el => {
+    //el.textContent = fifteen.order[i].id;
+    //el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
+    el.style.width = image.width/4 + "px";
+    el.style.height = image.height/4 + "px";;
+  });
 }
