@@ -101,12 +101,14 @@ window.addEventListener('keydown', function(e) {
 function draw() {
   let boxWidth = image.width + 60;
   box.style.width = boxWidth + "px";
-  let n = document.querySelector('div.innerDiv');
+  let n = document.querySelector('div.outerDiv');
   let tile = document.querySelectorAll('div.innerDiv');
   tile.forEach(el => {
-    //el.textContent = fifteen.order[i].id;
-    //el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
+    let i = 0;
+    el.textContent = fifteen.order[i].id;
+    el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     el.style.width = image.width/4 + "px";
-    el.style.height = image.height/4 + "px";;
+    el.style.height = image.height/4 + "px";
+    i++;
   });
 }
