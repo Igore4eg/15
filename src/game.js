@@ -50,7 +50,7 @@ async function inputFile() {
 async function startGame(){
   try {
     await inputFile();
-    console.log(fifteen.order)
+    
     cutImageUp(image);
     draw();
   }catch(e) {
@@ -101,13 +101,19 @@ window.addEventListener('keydown', function(e) {
 function draw() {
   let boxWidth = image.width + 60;
   box.style.width = boxWidth + "px";
-  let tile = document.querySelectorAll('div.innerDiv');
-  tile.forEach(el => {
-    let i = 0;
+  let inDiv = document.querySelectorAll('div.innerDiv');
+  let i = 0;
+  inDiv.forEach(el => {
     el.textContent = fifteen.order[i].id;
     el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     el.style.width = image.width/4 + "px";
     el.style.height = image.height/4 + "px";
     i++;
   });
+  let outDiv = document.querySelectorAll('div.outerDiv');
+  outDiv.forEach(elem => {
+    elem.style.width = "unset";
+    elem.style.height = "unset";
+  })
+
 }
