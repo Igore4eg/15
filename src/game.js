@@ -101,7 +101,6 @@ window.addEventListener('keydown', function(e) {
 function draw() {
   let boxWidth = image.width + 60;
   box.style.width = boxWidth + "px";
-  let n = document.querySelector('div.outerDiv');
   let tile = document.querySelectorAll('div.innerDiv');
   tile.forEach(el => {
     let i = 0;
