@@ -2,11 +2,18 @@ const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
   order: [ ...Array(16) ].map((_, i) => i = {id: i+1, data: i}),
   hole: 15,
-  /* isCompleted: function() {
-    return !this.order.some(function(item, i) {
-      return item > 0 && item-1 !== i; 
-    }); 
-  }, */
+  isCompleted: function(arr) {
+    if (arr[arr.length - 1] !== "empty") return;
+    for (let i = 0; i < arr.length - 1; i++){
+        if (i + 1 == arr[i]){ 
+          continue; 
+        }
+        else { 
+          return false;
+        }
+    }
+    return true;
+  },
   go: function(move) {
     let index = this.hole + move;
     if (!this.order[index]) return false;
@@ -38,7 +45,6 @@ async function inputFile() {
     reader.onload = function() {
       image.src =  reader.result;
       image.onload = function() {
-        console.log(this.width);
         resolve();
       } 
     };
@@ -50,7 +56,6 @@ async function inputFile() {
 async function startGame(){
   try {
     await inputFile();
-    
     cutImageUp(image);
     draw();
   }catch(e) {
@@ -71,6 +76,8 @@ function cutImageUp(elem) {
       fifteen.order[item].data =  canvas.toDataURL()
     }
   }
+  fifteen.order[15].id = 0;
+  fifteen.order[15].data = 0;
 } 
 
 
@@ -90,7 +97,7 @@ for (let i = 0; i < 16; i++) {
 window.addEventListener('keydown', function(e) {
   if (fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]])) {
       draw(); 
-      if (fifteen.isCompleted()) {
+      if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
       }
@@ -104,16 +111,16 @@ function draw() {
   let inDiv = document.querySelectorAll('div.innerDiv');
   let i = 0;
   inDiv.forEach(el => {
-    el.textContent = fifteen.order[i].id;
-    el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     el.style.width = image.width/4 + "px";
     el.style.height = image.height/4 + "px";
+    el.textContent = fifteen.order[i].id;
+    el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     i++;
-  });
+    }
+  );
   let outDiv = document.querySelectorAll('div.outerDiv');
   outDiv.forEach(elem => {
     elem.style.width = "unset";
     elem.style.height = "unset";
-  })
-
+  });
 }
