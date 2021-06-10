@@ -3,9 +3,8 @@ const fifteen = {
   order: [ ...Array(16) ].map((_, i) => i = {id: i+1, data: i}),
   hole: 15,
   isCompleted: function(arr) {
-    if (arr[arr.length - 1] !== "empty") return;
     for (let i = 0; i < arr.length - 1; i++){
-        if (i + 1 == arr[i]){ 
+        if (i + 1 == arr[i].id){ 
           continue; 
         }
         else { 
@@ -27,6 +26,9 @@ const fifteen = {
     let t = this.order[i1]; 
     this.order[i1] = this.order[i2]; 
     this.order[i2] = t; 
+  },
+  mix: function(){
+    console.log("mix");
   },
 };
 
@@ -58,6 +60,8 @@ async function startGame(){
     await inputFile();
     cutImageUp(image);
     draw();
+    fifteen.mix();
+
   }catch(e) {
     console.log(e);
   }
