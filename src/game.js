@@ -116,15 +116,22 @@ window.addEventListener('keydown', function(e) {
 
 
 function draw() {
-  let boxWidth = image.width + 60;
+  let k = 1;
+  if (image.width > 1000){
+    k = 100 / Math.max(image.width, image.height);
+  } 
+  let boxWidth = k * image.width + 60;
   box.style.width = boxWidth + "px";
   let inDiv = document.querySelectorAll('div.innerDiv');
   let i = 0;
   inDiv.forEach(el => {
-    el.style.width = image.width/4 + "px";
-    el.style.height = image.height/4 + "px";
+    el.style.width = k * image.width/4 + "px";
+    el.style.height = k * image.height/4 + "px";
+    el.style.maxWidth = 200 + "px";
     el.textContent = fifteen.order[i].id;
     el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
+    el.style.backgroundRepeat =  'no-repeat';
+    el.style.backgroundSize = "contain";
     i++;
     }
   );
