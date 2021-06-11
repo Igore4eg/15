@@ -34,7 +34,9 @@ const fifteen = {
     this.order[i2] = t; 
   },
   mix: function(){
+    k= this.getNull();
     console.log("mix");
+    this.swap(k, 11);
   },
 };
 
@@ -65,8 +67,9 @@ async function startGame(){
   try {
     await inputFile();
     cutImageUp(image);
-    draw();
     fifteen.mix();
+    draw();
+    
 
   }catch(e) {
     console.log(e);
