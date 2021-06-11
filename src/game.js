@@ -1,7 +1,12 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
   order: [ ...Array(16) ].map((_, i) => i = {id: i+1, data: i}),
-  hole: 15,
+  getNull: function() {
+    for(let k = 0; k < this.order.length; k++){
+      if (this.order[k].data === 0) {
+        return k;
+      }
+  }}, 
   isCompleted: function(arr) {
     for (let i = 0; i < arr.length - 1; i++){
         if (i + 1 == arr[i].id){ 
@@ -14,12 +19,13 @@ const fifteen = {
     return true;
   },
   go: function(move) {
-    let index = this.hole + move;
+    let hole = this.getNull();
+    let index = hole + move;
     if (!this.order[index]) return false;
     if (move === this.Move.left || move === this.Move.right)
-      if (Math.floor(this.hole/4) !== Math.floor(index/4)) return false;
-    this.swap(index, this.hole);
-    this.hole = index;
+      if (Math.floor(hole/4) !== Math.floor(index/4)) return false;
+    this.swap(index, hole);
+    hole = index;
     return true; 
   },
   swap: function(i1, i2) { 
