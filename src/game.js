@@ -33,9 +33,11 @@ const fifteen = {
     this.order[i1] = this.order[i2]; 
     this.order[i2] = t; 
   },
+  getRandomInt: function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min; 
+  },
   mix: function(){
-    k= this.getNull();
-    console.log("mix");
+    k = this.getNull();
     this.swap(k, 11);
   },
 };
@@ -100,7 +102,8 @@ box.setAttribute("style", "margin-top: 20px; width: 456px; border: solid 1px tra
 for (let i = 0; i < 16; i++) {
   let outDiv = box.appendChild(document.createElement('div'));
   outDiv.setAttribute("class", "outerDiv");
-  outDiv.setAttribute("style", "display: inline-block; width: 100px; height: 100px; border: solid 2px gray; margin: 2px; text-align: center; background-color: whitesmoke;");
+    
+  outDiv.setAttribute("style", "display: inline-block; width: 100px; height: 100px; border: solid 2px gray; margin: 2px; text-align: center; background-color: whitesmoke; box-sizing: border-box");
   let inDiv = outDiv.appendChild(document.createElement('div'));
   inDiv.setAttribute("class", "innerDiv");
 };
@@ -121,7 +124,7 @@ window.addEventListener('keydown', function(e) {
 function draw() {
   let k = 1;
   if (image.width > 1000){
-    k = 100 / Math.max(image.width, image.height);
+    k = 1000 / Math.max(image.width, image.height);
   } 
   let boxWidth = k * image.width + 32;
   box.style.width = boxWidth + "px";
@@ -142,6 +145,6 @@ function draw() {
   outDiv.forEach(elem => {
     elem.style.width = "unset";
     elem.style.height = "unset";
-    elem.style.boxSizing = "border-box"
+
   });
 }
