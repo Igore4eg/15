@@ -100,7 +100,7 @@ box.setAttribute("style", "margin-top: 20px; width: 456px; border: solid 1px tra
 for (let i = 0; i < 16; i++) {
   let outDiv = box.appendChild(document.createElement('div'));
   outDiv.setAttribute("class", "outerDiv");
-  outDiv.setAttribute("style", "display: inline-block; width: 100px; height: 100px; border: solid 2px gray; margin: 5px; text-align: center; background-color: whitesmoke;");
+  outDiv.setAttribute("style", "display: inline-block; width: 100px; height: 100px; border: solid 2px gray; margin: 2px; text-align: center; background-color: whitesmoke;");
   let inDiv = outDiv.appendChild(document.createElement('div'));
   inDiv.setAttribute("class", "innerDiv");
 };
@@ -123,7 +123,7 @@ function draw() {
   if (image.width > 1000){
     k = 100 / Math.max(image.width, image.height);
   } 
-  let boxWidth = k * image.width + 60;
+  let boxWidth = k * image.width + 32;
   box.style.width = boxWidth + "px";
   let inDiv = document.querySelectorAll('div.innerDiv');
   let i = 0;
@@ -142,5 +142,6 @@ function draw() {
   outDiv.forEach(elem => {
     elem.style.width = "unset";
     elem.style.height = "unset";
+    elem.style.boxSizing = "border-box"
   });
 }
