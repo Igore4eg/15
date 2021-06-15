@@ -36,9 +36,33 @@ const fifteen = {
   getRandomInt: function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; 
   },
+  getCellsForMovement: function(x){
+    try{
+      if((((x - 1)%4) !== 0 )){
+        posleft = (x - 1);
+        console.log(posleft)
+      };
+      if((x-4) >=0){
+        posTop = x - 4;
+      };
+      if((((x + 1)%4) !== 0 )){
+        posRight = x + 1;
+      };
+      if(x + 4 < 15){
+        posBot = x + 4;
+      }
+      console.log(posleft, posTop, posRight, posBot);
+      return posleft, posTop, posRight, posBot;
+    }
+    catch(e){
+      console.log(e);
+    }
+  },
   mix: function(){
     k = this.getNull();
     this.swap(k, 11);
+    n = this.getNull();
+    console.log(this.getCellsForMovement(n));
   },
 };
 
