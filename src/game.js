@@ -37,30 +37,37 @@ const fifteen = {
     return Math.floor(Math.random() * (max - min + 1)) + min; 
   },
   getCellsForMovement: function(x){
+    let cellMap = new Map();
     try{
-      if((((x - 1)%4) !== 0 )){
-        posleft = (x - 1);
-        console.log(posleft)
+      if(((x - 1) % 4) !== 0 ){
+        posleft = x - 1;
+        console.log(posleft);
+        cellMap.set(left, posleft);
       };
-      if((x-4) >=0){
+      if((x - 4) >= 0){
         posTop = x - 4;
+        console.log(posTop);
+        cellMap.set(top, posTop);
       };
-      if((((x + 1)%4) !== 0 )){
+      if((((x + 1) % 4) !== 0 )){
         posRight = x + 1;
+        console.log(posRight);
+        cellMap.set(right, posRight);
       };
       if(x + 4 < 15){
         posBot = x + 4;
+        console.log(posBot);
+        cellMap.set(bot, posBot);
       }
-      console.log(posleft, posTop, posRight, posBot);
-      return posleft, posTop, posRight, posBot;
     }
     catch(e){
       console.log(e);
     }
+    for (var [key, value] of cellMap) {
+      console.log(key + ' = ' + value);
+    }
   },
   mix: function(){
-    k = this.getNull();
-    this.swap(k, 11);
     n = this.getNull();
     console.log(this.getCellsForMovement(n));
   },
