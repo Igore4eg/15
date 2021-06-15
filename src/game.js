@@ -2,11 +2,14 @@ const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
   order: [ ...Array(16) ].map((_, i) => i = {id: i+1, data: i}),
   getNull: function() {
-    for(let k = 0; k < this.order.length; k++){
+
+    k = this.order.findIndex(_ => _.id === 0); return k;
+      for(let k = 0; k < this.order.length; k++){
       if (this.order[k].data === 0) {
         return k;
       }
-  }}, 
+    }
+  },
   isCompleted: function(arr) {
     for (let i = 0; i < arr.length - 1; i++){
         if (i + 1 == arr[i].id){ 
