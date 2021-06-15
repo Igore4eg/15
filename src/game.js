@@ -10,9 +10,9 @@ const fifteen = {
       }
     }
   },
-  isCompleted: function(arr) {
-    for (let i = 0; i < arr.length - 1; i++){
-        if (i + 1 == arr[i].id){ 
+  isCompleted: function(array) {
+    for (let i = 0; i < array.length - 1; i++){
+        if (i + 1 == array[i].id){ 
           continue; 
         }
         else { 
