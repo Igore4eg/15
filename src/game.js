@@ -2,13 +2,8 @@ const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
   order: [ ...Array(16) ].map((_, i) => i = {id: i+1, data: i}),
   getNull: function() {
-
-    k = this.order.findIndex(_ => _.id === 0); return k;
-      for(let k = 0; k < this.order.length; k++){
-      if (this.order[k].data === 0) {
-        return k;
-      }
-    }
+    k = this.order.findIndex(_ => _.id === 0); 
+    return k;
   },
   isCompleted: function(array) {
     for (let i = 0; i < array.length - 1; i++){
@@ -39,41 +34,29 @@ const fifteen = {
   getRandomInt: function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; 
   },
-  getCellsForMovement: function(x){
-    var cellMap = new Map();
-
-    try{
-      if(((x % 4) !== 0) && (x-1 >= 0)  ){
-        posleft = x - 1;
-        console.log(posleft);
-        cellMap.set("left", posleft);
-      };
-      if((x - 4) >= 0){
-        posTop = x - 4;
-        console.log(posTop);
-        cellMap.set("top", posTop);
-      };
-      if((((x + 1) % 4) !== 0 )){
-        posRight = x + 1;
-        console.log(posRight);
-        cellMap.set("right", posRight);
-      };
-      if((x + 4) < 15){
-        posBot = x + 4;
-        console.log(posBot);
-        cellMap.set("bot", posBot);
-      }
-    }
-    catch(e){
-      console.log(e);
-    }
-    for (var [key, value] of cellMap) {
-      console.log(key + ' = ' + value);
-    }
+  getCellsForMovement: function(k){
+    const n = 4;
+    const arr = [
+      [ k-1, 'h', ],
+      [ k+1, 'h', ],
+      [ k-n, 'v', ],
+      [ k+n, 'v', ],
+    ].filter(([_, flag]) => flag === 'h'
+      ? Math.floor(_ / n) === Math.floor(k / n)
+      : flag === 'v'
+        ? _ > 0 && _ < n*n
+        : 0
+    ).map(([value, key]) => value);
+    return arr;
   },
   mix: function(){
-    n = this.getNull();
-    console.log(this.getCellsForMovement(n));
+    let m = this.getRandomInt(50, 500);
+    for(let i = 0; i < m; i++){
+      let n = this.getNull();
+      let arr = this.getCellsForMovement(n);
+      let r =  this.getRandomInt(0, arr.length-1);
+      this.swap(n, arr[r])
+    }
   },
 };
 
@@ -106,8 +89,6 @@ async function startGame(){
     cutImageUp(image);
     fifteen.mix();
     draw();
-    
-
   }catch(e) {
     console.log(e);
   }
