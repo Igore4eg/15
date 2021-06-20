@@ -89,6 +89,7 @@ async function startGame(){
     cutImageUp(image);
     fifteen.mix();
     draw();
+    drag();
   }catch(e) {
     console.log(e);
   }
@@ -129,6 +130,7 @@ for (let i = 0; i < 16; i++) {
 window.addEventListener('keydown', function(e) {
   if (fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]])) {
       draw(); 
+      drag();
       if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
@@ -151,6 +153,7 @@ function draw() {
     el.style.height = k * image.height/4 + "px";
     el.style.maxWidth = 200 + "px";
     el.textContent = fifteen.order[i].id;
+    el.id = fifteen.order[i].id;
     el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     el.style.backgroundRepeat =  'no-repeat';
     el.style.backgroundSize = "contain";
@@ -161,6 +164,16 @@ function draw() {
   outDiv.forEach(elem => {
     elem.style.width = "unset";
     elem.style.height = "unset";
+  });
+}
 
+function drag(){
+  let dropZone = fifteen.getNull();
+  let dragArray = fifteen.getCellsForMovement(dropZone);
+  dragArray.forEach(function (item) {
+    console.log(item + " dragArray")
+    let el = document.querySelector(`[id='${fifteen.order[item].id}']`); 
+    console.log(el + 'drag');
+    el.draggable = true;
   });
 }
