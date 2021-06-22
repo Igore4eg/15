@@ -168,12 +168,21 @@ function draw() {
 }
 
 function drag(){
+  let dragOff = document.querySelectorAll('div.innerDiv');
+  dragOff.forEach(el => {
+    el.draggable = false;
+  });
   let dropZone = fifteen.getNull();
   let dragArray = fifteen.getCellsForMovement(dropZone);
   dragArray.forEach(function (item) {
-    console.log(item + " dragArray")
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`); 
-    console.log(el + 'drag');
     el.draggable = true;
+    el.ondragstart = e => {
+
+    }
+    el.ondrop = e => {
+  
+    };
   });
+  
 }
