@@ -178,11 +178,15 @@ function drag(){
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`); 
     el.draggable = true;
     el.ondragstart = e => {
-
+      e.dataTransfer.setData("id", e.target.id);
+      e.target.style.opacity = "0.5";
     }
     el.ondrop = e => {
   
     };
+    el.ondragend = e =>{
+      
+    }
   });
   
 }
