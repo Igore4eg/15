@@ -157,6 +157,8 @@ function draw() {
     el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     el.style.backgroundRepeat =  'no-repeat';
     el.style.backgroundSize = "contain";
+    el.draggable = false;
+    el.style.opacity = "1";
     i++;
     }
   );
@@ -168,25 +170,51 @@ function draw() {
 }
 
 function drag(){
-  let dragOff = document.querySelectorAll('div.innerDiv');
-  dragOff.forEach(el => {
-    el.draggable = false;
-  });
-  let dropZone = fifteen.getNull();
-  let dragArray = fifteen.getCellsForMovement(dropZone);
+  let dropZone = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`).parentElement;
+  let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
+
+  const dragStart = function() {
+    this.style.opacity = "0.5";
+    console.log("dragstart");
+  };
+
+  const dragEnd = function() {
+    this.style.opacity = "1";
+    console.log("dragend");
+  }
+
+
   dragArray.forEach(function (item) {
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`); 
     el.draggable = true;
-    el.ondragstart = e => {
+    el.addEventListener('dragstart', dragStart);
+    el.addEventListener('dragend', dragEnd);
+  });
+
+  
+
+  const dragDrop = function(){
+    console.log("drop");
+  }
+  dropZone.addEventListener('drop', dragDrop);
+  
+
+
+/*    el.ondragstart = e => {
       e.dataTransfer.setData("id", e.target.id);
       e.target.style.opacity = "0.5";
+      e.dataTransfer.dropEffect = "move";
+      console.log(e);
     }
     el.ondrop = e => {
-  
+      e.preventDefault();
+      const data = e.dataTransfer.getData("id", e.target.id);
+      e.target.appendChild(document.getElementById(data));
     };
     el.ondragend = e =>{
       
-    }
-  });
-  
+    } */
+
+
+
 }
