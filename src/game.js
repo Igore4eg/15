@@ -170,51 +170,42 @@ function draw() {
 }
 
 function drag(){
-  let dropZone = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`).parentElement;
+  let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
+  let dropZone = dropCell.parentElement;
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
-
+  let dragCells = [];
+  
+  
   const dragStart = function() {
     this.style.opacity = "0.5";
-    console.log("dragstart");
   };
-
   const dragEnd = function() {
     this.style.opacity = "1";
-    console.log("dragend");
   }
 
-
   dragArray.forEach(function (item) {
-    let el = document.querySelector(`[id='${fifteen.order[item].id}']`); 
+    let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
     el.draggable = true;
+    dragCells.push(el.parentElement);
     el.addEventListener('dragstart', dragStart);
     el.addEventListener('dragend', dragEnd);
-  });
+  }); 
 
-  
 
+  const dragEnter = function() {
+    dropCell.style.backgroundColor = "red";
+  }
+  const dragLeave = function() {
+    this.firstChild.style.backgroundColor = "whitesmoke";
+  }
+  const dragOver = function() {
+    console.log("over");
+  }
   const dragDrop = function(){
     console.log("drop");
   }
+  dropZone.addEventListener('dragenter', dragEnter);
+  dropZone.addEventListener('dragleave', dragLeave);
+  dropZone.addEventListener('dragover', dragOver);
   dropZone.addEventListener('drop', dragDrop);
-  
-
-
-/*    el.ondragstart = e => {
-      e.dataTransfer.setData("id", e.target.id);
-      e.target.style.opacity = "0.5";
-      e.dataTransfer.dropEffect = "move";
-      console.log(e);
-    }
-    el.ondrop = e => {
-      e.preventDefault();
-      const data = e.dataTransfer.getData("id", e.target.id);
-      e.target.appendChild(document.getElementById(data));
-    };
-    el.ondragend = e =>{
-      
-    } */
-
-
-
 }
