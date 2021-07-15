@@ -173,11 +173,11 @@ function drag(){
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
   let dropZone = dropCell.parentElement;
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
-  let dragCells = [];
-  
-  
+  let dragID; 
+   
   const dragStart = function() {
     this.style.opacity = "0.5";
+    dragID = this.id;
   };
   const dragEnd = function() {
     this.style.opacity = "1";
@@ -186,7 +186,6 @@ function drag(){
   dragArray.forEach(function (item) {
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
     el.draggable = true;
-    dragCells.push(el.parentElement);
     el.addEventListener('dragstart', dragStart);
     el.addEventListener('dragend', dragEnd);
   }); 
@@ -198,11 +197,14 @@ function drag(){
   const dragLeave = function() {
     this.firstChild.style.backgroundColor = "whitesmoke";
   }
-  const dragOver = function() {
-    console.log("over");
+  const dragOver = function(evt) {
+    evt.preventDefault();
   }
   const dragDrop = function(){
-    console.log("drop");
+    console.log(this.firstChild.id);
+    console.log(dragID);
+    fifteen.swap(this.firstChild.id, dragID);
+    console.log(this.firstChild.id);
   }
   dropZone.addEventListener('dragenter', dragEnter);
   dropZone.addEventListener('dragleave', dragLeave);
