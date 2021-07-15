@@ -1,6 +1,7 @@
 const fifteen = {
   Move: {up: -4, left: -1, down: 4, right: 1},
   order: [ ...Array(16) ].map((_, i) => i = {id: i+1, data: i}),
+
   getNull: function() {
     k = this.order.findIndex(_ => _.id === 0); 
     return k;
@@ -174,7 +175,7 @@ function drag(){
   let dropZone = dropCell.parentElement;
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
   let dragID; 
-   
+
   const dragStart = function() {
     this.style.opacity = "0.5";
     dragID = this.id;
@@ -201,10 +202,10 @@ function drag(){
     evt.preventDefault();
   }
   const dragDrop = function(){
-    console.log(this.firstChild.id);
-    console.log(dragID);
-    fifteen.swap(this.firstChild.id, dragID);
-    console.log(this.firstChild.id);
+    let idd = dragID - 1;
+    console.log(fifteen.order[idd])
+    //fifteen.swap(this.firstChild.id, dragID - 1);
+    
   }
   dropZone.addEventListener('dragenter', dragEnter);
   dropZone.addEventListener('dragleave', dragLeave);
