@@ -191,8 +191,9 @@ function drag(){
     el.addEventListener('dragend', dragEnd);
   }); 
 
-  const dragEnter = function() {
-    this.style.backgroundColor = "red";
+  const dragEnter = function(evt) {
+    evt.preventDefault();
+    this.style.backgroundColor = "#20B2AA";
   }
   const dragLeave = function() {
     this.style.backgroundColor = "whitesmoke";
@@ -200,13 +201,14 @@ function drag(){
   const dragOver = function(evt) {
     evt.preventDefault();
   }
-  const dragDrop = function(evt){
+  const dragDrop = function(){
 /*     console.log(fifteen.getNull());
     console.log(dragID);
     console.log(fifteen.findIndex(dragID)); */
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
+    this.style.backgroundColor = "whitesmoke";
     draw();
-    evt.preventDefault();
+    //console.log(fifteen.getNull());
 
   }
   dropCell.addEventListener('dragenter', dragEnter);
