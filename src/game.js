@@ -100,7 +100,6 @@ async function startGame(){
   }
 }
 
-
 function cutImageUp(elem) {
   for(let x = 0; x < 4; ++x) {
     for(let y = 0; y < 4; ++y) {
@@ -117,7 +116,6 @@ function cutImageUp(elem) {
   fifteen.order[15].data = 0;
 } 
 
-
 const box = document.body.appendChild(document.createElement('div'));
 box.setAttribute("id", "box");
 box.setAttribute("style", "margin-top: 20px; width: 456px; border: solid 1px transparent;");
@@ -130,8 +128,6 @@ for (let i = 0; i < 16; i++) {
   inDiv.setAttribute("class", "innerDiv");
 };
 
-
-
 window.addEventListener('keydown', function(e) {
   if (fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]])) {
       draw(); 
@@ -142,7 +138,6 @@ window.addEventListener('keydown', function(e) {
       }
   }
 });
-
 
 function draw() {
   let k = 1;
@@ -195,7 +190,6 @@ function drag(){
     el.addEventListener('dragstart', dragStart);
     el.addEventListener('dragend', dragEnd);
   }); 
-
 
   const dragEnter = function() {
     this.style.backgroundColor = "red";
