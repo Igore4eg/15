@@ -6,6 +6,10 @@ const fifteen = {
     k = this.order.findIndex(_ => _.id === 0); 
     return k;
   },
+  findIndex: function(el) {
+    k = this.order.findIndex(_ => _.id === +el); 
+    return k;
+  },
   isCompleted: function(array) {
     for (let i = 0; i < array.length - 1; i++){
         if (i + 1 == array[i].id){ 
@@ -167,12 +171,13 @@ function draw() {
   outDiv.forEach(elem => {
     elem.style.width = "unset";
     elem.style.height = "unset";
+    elem.style.backgroundColor = "whitesmoke";
   });
+  drag();
 }
 
 function drag(){
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
-  let dropZone = dropCell.parentElement;
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
   let dragID; 
 
@@ -193,22 +198,25 @@ function drag(){
 
 
   const dragEnter = function() {
-    dropCell.style.backgroundColor = "red";
+    this.style.backgroundColor = "red";
   }
   const dragLeave = function() {
-    this.firstChild.style.backgroundColor = "whitesmoke";
+    this.style.backgroundColor = "whitesmoke";
   }
   const dragOver = function(evt) {
     evt.preventDefault();
   }
-  const dragDrop = function(){
-    let idd = dragID - 1;
-    console.log(fifteen.order[idd])
-    //fifteen.swap(this.firstChild.id, dragID - 1);
-    
+  const dragDrop = function(evt){
+/*     console.log(fifteen.getNull());
+    console.log(dragID);
+    console.log(fifteen.findIndex(dragID)); */
+    fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
+    draw();
+    evt.preventDefault();
+
   }
-  dropZone.addEventListener('dragenter', dragEnter);
-  dropZone.addEventListener('dragleave', dragLeave);
-  dropZone.addEventListener('dragover', dragOver);
-  dropZone.addEventListener('drop', dragDrop);
+  dropCell.addEventListener('dragenter', dragEnter);
+  dropCell.addEventListener('dragleave', dragLeave);
+  dropCell.addEventListener('dragover', dragOver);
+  dropCell.addEventListener('drop', dragDrop);
 }
