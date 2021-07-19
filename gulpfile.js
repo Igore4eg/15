@@ -28,9 +28,9 @@ function serve(){
 }
 
 function compress(){
-    return gulp.src('src/*.js'),
-        uglify(),
-        gulp.dest('docs/')
+    return src('src/*.js')
+        .pipe(uglify())
+        .pipe(dest('docs/'))
 }
 
 function styles(){

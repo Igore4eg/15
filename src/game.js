@@ -202,14 +202,10 @@ function drag(){
     evt.preventDefault();
   }
   const dragDrop = function(){
-/*     console.log(fifteen.getNull());
-    console.log(dragID);
-    console.log(fifteen.findIndex(dragID)); */
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
     this.style.backgroundColor = "whitesmoke";
     draw();
-    //console.log(fifteen.getNull());
-
+    
   }
   dropCell.addEventListener('dragenter', dragEnter);
   dropCell.addEventListener('dragleave', dragLeave);
