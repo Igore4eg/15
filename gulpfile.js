@@ -48,15 +48,15 @@ function styles(){
 
 function images(){
     return src('src/img/**/*') 
-		.pipe(newer('build/img/'))
+		.pipe(newer('docs/img/'))
 		.pipe(imagemin()) 
-		.pipe(dest('build/img/'))
+		.pipe(dest('docs/img/'))
 }
 
 function imgaeMin(){
     return src('src/img/**/*') 
         .pipe(imagemin())
-        .pipe(dest('build/img/')) 
+        .pipe(dest('docs/img/')) 
 }
 
 exports.images = images;

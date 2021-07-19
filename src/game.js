@@ -172,13 +172,23 @@ function draw() {
 }
 
 function drag(){
+
+  function exchangeElements(el1, el2) {
+    let clonedElement1 = el1.cloneNode();
+    let clonedElement2 = el2.cloneNode();
+    el2.parentNode.replaceChild(clonedElement1, el2);
+    el1.parentNode.replaceChild(clonedElement2, el1);
+}
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
   let dragID; 
+  let draggable;
+  
 
   const dragStart = function() {
     this.style.opacity = "0.5";
     dragID = this.id;
+    draggable = this;
   };
   const dragEnd = function() {
     this.style.opacity = "1";
@@ -204,8 +214,9 @@ function drag(){
   const dragDrop = function(){
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
     this.style.backgroundColor = "whitesmoke";
-    draw();
-    
+    exchangeElements(dropCell, draggable)
+    drag()
+    console.log(fifteen.order)   
   }
   dropCell.addEventListener('dragenter', dragEnter);
   dropCell.addEventListener('dragleave', dragLeave);
