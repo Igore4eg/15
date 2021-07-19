@@ -12,6 +12,7 @@ const newer = require('gulp-newer');
 const sass = require('gulp-sass');
 const svgSprite = require('gulp-svg-sprite');
 const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
 
 const { src, dest, parallel, series, watch } = gulp;
 
@@ -24,6 +25,12 @@ function serve(){
         online: true
     });
     browserSync.watch('src/**/*.*').on('change', browserSync.reload);
+}
+
+function uglify(){
+    return gulp.src('src/*.js'),
+        uglify(),
+        gulp.dest('docs/')
 }
 
 function styles(){
@@ -56,3 +63,4 @@ exports.images = images;
 exports.imgaeMin = imgaeMin;
 exports.serve = serve;
 exports.styles = styles;
+exports.uglify = uglify;
