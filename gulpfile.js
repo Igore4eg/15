@@ -27,7 +27,7 @@ function serve(){
     browserSync.watch('src/**/*.*').on('change', browserSync.reload);
 }
 
-function uglify(){
+function compress(){
     return gulp.src('src/*.js'),
         uglify(),
         gulp.dest('docs/')
@@ -42,7 +42,7 @@ function styles(){
         .pipe(cleancss( { level: { 1: { specialComments: 0 } } } ))
         .pipe(gulpif(isDev, sourcemaps.write()))
         .pipe(debug({title: 'sourcemap'}))
-        .pipe(dest('src/styles/')) 
+        .pipe(dest('docs/styles/')) 
         .pipe(browserSync.stream())
     }
 
@@ -63,4 +63,4 @@ exports.images = images;
 exports.imgaeMin = imgaeMin;
 exports.serve = serve;
 exports.styles = styles;
-exports.uglify = uglify;
+exports.compress = compress;
