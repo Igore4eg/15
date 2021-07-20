@@ -94,6 +94,7 @@ async function startGame(){
     cutImageUp(image);
     fifteen.mix();
     draw();
+    addDraggable();
     drag();
   }catch(e) {
     console.log(e);
@@ -117,6 +118,7 @@ function cutImageUp(elem) {
 } 
 
 const box = document.body.appendChild(document.createElement('div'));
+
 box.setAttribute("id", "box");
 box.setAttribute("style", "margin-top: 20px; width: 456px; border: solid 1px transparent;");
 for (let i = 0; i < 16; i++) {
@@ -131,7 +133,8 @@ for (let i = 0; i < 16; i++) {
 window.addEventListener('keydown', function(e) {
   if (fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]])) {
       draw(); 
-      drag();
+      delDraggable();
+      addDraggable();
       if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
@@ -157,8 +160,6 @@ function draw() {
     el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     el.style.backgroundRepeat =  'no-repeat';
     el.style.backgroundSize = "contain";
-    el.draggable = false;
-    el.style.opacity = "1";
     i++;
     }
   );
@@ -168,17 +169,32 @@ function draw() {
     elem.style.height = "unset";
     elem.style.backgroundColor = "whitesmoke";
   });
-  drag();
+  
 }
+
+function addDraggable() {
+  const dragArray = fifteen.getCellsForMovement(fifteen.getNull());
+  dragArray.forEach(function (item) {
+    let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
+    el.draggable = true;
+  });
+}
+
+function delDraggable() {
+  let inDiv = document.querySelectorAll('div.innerDiv');
+  inDiv.forEach(el => {el.draggable = false})
+}
+
 
 function drag(){
 
   function exchangeElements(el1, el2) {
-    const parentEl1 = el1.parentNode();
-    const parentEl2 = el2.parentNode();
-    parentEl1.replaceChild(el1, el2);
-    parentEl2.replaceChild(el2, el1);
-}
+    const parentEl1 = el1.parentNode;
+    const parentEl2 = el2.parentNode;
+    parentEl1.appendChild(el2);
+    parentEl2.appendChild(el1);
+  }
+  
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
   let dragID; 
@@ -189,6 +205,7 @@ function drag(){
     this.style.opacity = "0.5";
     dragID = this.id;
     draggable = this;
+    console.log("dragstart;")
   };
   const dragEnd = function() {
     this.style.opacity = "1";
@@ -196,7 +213,6 @@ function drag(){
 
   dragArray.forEach(function (item) {
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
-    el.draggable = true;
     el.addEventListener('dragstart', dragStart);
     el.addEventListener('dragend', dragEnd);
   }); 
@@ -214,9 +230,10 @@ function drag(){
   const dragDrop = function(){
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
     this.style.backgroundColor = "whitesmoke";
-    exchangeElements(dropCell, draggable)
-    drag()
-    console.log(fifteen.order)   
+    exchangeElements(dropCell, draggable);
+    console.log(dropCell, draggable);
+    delDraggable();
+    addDraggable();
   }
   dropCell.addEventListener('dragenter', dragEnter);
   dropCell.addEventListener('dragleave', dragLeave);
