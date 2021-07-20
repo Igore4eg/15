@@ -94,7 +94,6 @@ async function startGame(){
     cutImageUp(image);
     fifteen.mix();
     draw();
-    addDraggable();
     drag();
   }catch(e) {
     console.log(e);
@@ -135,6 +134,7 @@ window.addEventListener('keydown', function(e) {
       draw(); 
       delDraggable();
       addDraggable();
+      drag();
       if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
@@ -163,6 +163,7 @@ function draw() {
     i++;
     }
   );
+  addDraggable();
   let outDiv = document.querySelectorAll('div.outerDiv');
   outDiv.forEach(elem => {
     elem.style.width = "unset";
@@ -205,7 +206,7 @@ function drag(){
     this.style.opacity = "0.5";
     dragID = this.id;
     draggable = this;
-    console.log("dragstart;")
+    console.log("dragstart;" + dragID)
   };
   const dragEnd = function() {
     this.style.opacity = "1";
@@ -231,7 +232,7 @@ function drag(){
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
     this.style.backgroundColor = "whitesmoke";
     exchangeElements(dropCell, draggable);
-    console.log(dropCell, draggable);
+    console.log(dropCell.id, draggable.id);
     delDraggable();
     addDraggable();
   }
