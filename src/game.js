@@ -174,10 +174,10 @@ function draw() {
 function drag(){
 
   function exchangeElements(el1, el2) {
-    let clonedElement1 = el1.cloneNode();
-    let clonedElement2 = el2.cloneNode();
-    el2.parentNode.replaceChild(clonedElement1, el2);
-    el1.parentNode.replaceChild(clonedElement2, el1);
+    const parentEl1 = el1.parentNode();
+    const parentEl2 = el2.parentNode();
+    parentEl1.replaceChild(el1, el2);
+    parentEl2.replaceChild(el2, el1);
 }
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
