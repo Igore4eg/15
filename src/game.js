@@ -160,6 +160,7 @@ function draw() {
     el.style.backgroundImage = `url('${fifteen.order[i].data}')`;
     el.style.backgroundRepeat =  'no-repeat';
     el.style.backgroundSize = "contain";
+    el.style.userSelect = "none";
     i++;
     }
   );
