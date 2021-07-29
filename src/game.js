@@ -29,7 +29,7 @@ const fifteen = {
       if (Math.floor(hole/4) !== Math.floor(index/4)) return false;
     this.swap(index, hole);
     hole = index;
-    return index; 
+    return [true, hole, index]; 
   },
   swap: function(i1, i2) { 
     let t = this.order[i1]; 
@@ -131,8 +131,15 @@ for (let i = 0; i < 16; i++) {
 };
 
 window.addEventListener('keydown', function(e) {
-  if (fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]])) {
-      draw(); 
+  //const result = fifteen.go(fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]));
+  if (fifteen.go(fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]))) {
+    /* const result = fifteen.go(fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]));
+      let el1 = document.querySelector(`[id='${fifteen.order[result[1]].id}']`);
+      console.log(el1);
+      let el2 = document.querySelector(`[id='${fifteen.order[result[2]].id}']`);
+      console.log(el2);
+      exchangeElements(el1, el2); */
+      draw();
       delDraggable();
       addDraggable();
       if (fifteen.isCompleted(fifteen.order)) {
