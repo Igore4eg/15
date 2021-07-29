@@ -29,7 +29,7 @@ const fifteen = {
       if (Math.floor(hole/4) !== Math.floor(index/4)) return false;
     this.swap(index, hole);
     hole = index;
-    return true; 
+    return index; 
   },
   swap: function(i1, i2) { 
     let t = this.order[i1]; 
@@ -70,6 +70,7 @@ let image = new Image();
 const importImage = document.body.appendChild(document.createElement('input'));
 importImage.type = "file";
 importImage.id = 'inputFile';
+importImage.accept = ".png, .jpg, .jpeg";
 importImage.onchange = startGame;
 
 async function inputFile() {
@@ -134,13 +135,13 @@ window.addEventListener('keydown', function(e) {
       draw(); 
       delDraggable();
       addDraggable();
-      drag();
       if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
       }
   }
 });
+
 
 function draw() {
   let k = 1;
@@ -187,21 +188,18 @@ function delDraggable() {
   inDiv.forEach(el => {el.draggable = false})
 }
 
+function exchangeElements(el1, el2) {
+  const parentEl1 = el1.parentNode;
+  const parentEl2 = el2.parentNode;
+  parentEl1.appendChild(el2);
+  parentEl2.appendChild(el1);
+}
 
 function drag(){
-
-  function exchangeElements(el1, el2) {
-    const parentEl1 = el1.parentNode;
-    const parentEl2 = el2.parentNode;
-    parentEl1.appendChild(el2);
-    parentEl2.appendChild(el1);
-  }
-  
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
   let dragID; 
   let draggable;
-  
 
   const dragStart = function() {
     this.style.opacity = "0.5";
@@ -212,7 +210,6 @@ function drag(){
   const dragEnd = function() {
     this.style.opacity = "1";
   }
-
   dragArray.forEach(function (item) {
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
     el.addEventListener('dragstart', dragStart);
@@ -235,7 +232,9 @@ function drag(){
     exchangeElements(dropCell, draggable);
     console.log(dropCell.id, draggable.id);
     delDraggable();
+    console.log(dropCell.id, draggable.id);
     addDraggable();
+    console.log(dropCell.id, draggable.id);
   }
   dropCell.addEventListener('dragenter', dragEnter);
   dropCell.addEventListener('dragleave', dragLeave);
