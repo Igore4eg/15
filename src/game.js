@@ -29,7 +29,7 @@ const fifteen = {
       if (Math.floor(hole/4) !== Math.floor(index/4)) return false;
     this.swap(index, hole);
     hole = index;
-    return [true, hole, index]; 
+    return [true, hole, hole-move]; 
   },
   swap: function(i1, i2) { 
     let t = this.order[i1]; 
@@ -131,17 +131,35 @@ for (let i = 0; i < 16; i++) {
 };
 
 window.addEventListener('keydown', function(e) {
-  //const result = fifteen.go(fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]));
-  if (fifteen.go(fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]))) {
-    /* const result = fifteen.go(fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]));
+  const result = fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]);
+  if (result[0]) {
       let el1 = document.querySelector(`[id='${fifteen.order[result[1]].id}']`);
-      console.log(el1);
+      console.log(el1.id);
       let el2 = document.querySelector(`[id='${fifteen.order[result[2]].id}']`);
-      console.log(el2);
-      exchangeElements(el1, el2); */
-      draw();
+      console.log(el2.id);
+      console.log(fifteen.order)
+      exchangeElements(el1, el2); 
       delDraggable();
       addDraggable();
+      let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
+      let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
+      let dragID; 
+      let draggable;
+    
+      const dragStart = function() {
+        this.style.opacity = "0.5";
+        dragID = this.id;
+        draggable = this;
+        console.log("dragstart;" + dragID)
+      };
+      const dragEnd = function() {
+        this.style.opacity = "1";
+      }
+      dragArray.forEach(function (item) {
+        let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
+        el.addEventListener('dragstart', dragStart);
+        el.addEventListener('dragend', dragEnd);
+      }); 
       if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
@@ -208,7 +226,7 @@ function drag(){
   let dragID; 
   let draggable;
 
-  const dragStart = function() {
+/*   const dragStart = function() {
     this.style.opacity = "0.5";
     dragID = this.id;
     draggable = this;
@@ -221,7 +239,7 @@ function drag(){
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
     el.addEventListener('dragstart', dragStart);
     el.addEventListener('dragend', dragEnd);
-  }); 
+  });   */
 
   const dragEnter = function(evt) {
     evt.preventDefault();
