@@ -141,13 +141,37 @@ window.addEventListener('keydown', function(e) {
   const result = fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]);
   if (result[0]) {
       let el1 = document.querySelector(`[id='${fifteen.order[result[1]].id}']`);
-      console.log(el1.id);
       let el2 = document.querySelector(`[id='${fifteen.order[result[2]].id}']`);
-      console.log(el2.id);
-      console.log(fifteen.order)
+      let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
+      let dragID; 
+      let draggable;
+
+      const dragStart = function() {
+        this.style.opacity = "0.5";
+        dragID = this.id;
+        draggable = this;
+        console.log("dragstart:" + dragID)
+      };
+      const dragEnd = function() {
+        this.style.opacity = "1";
+        console.log("dragend:" + dragID)
+      }
       exchangeElements(el1, el2); 
       delDraggable();
+      let inDiv = document.querySelectorAll('div.innerDiv');
+      inDiv.forEach(function (el) {
+        el.removeEventListener('dragstart', dragStart);
+        el.removeEventListener('dragend', dragEnd);
+        console.log("remove")
+      }); 
       addDraggable();
+      let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
+      dragArrayAdd.forEach(function (item) {
+        let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
+        el.addEventListener('dragstart', dragStart);
+        el.addEventListener('dragend', dragEnd);
+      });   
+
       if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
@@ -197,8 +221,12 @@ function addDraggable() {
 
 function delDraggable() {
   let inDiv = document.querySelectorAll('div.innerDiv');
-  inDiv.forEach(el => {el.draggable = false})
+  inDiv.forEach(el => {
+    el.draggable = false;
+  })
 }
+
+
 
 function drag(){
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
@@ -238,14 +266,14 @@ function drag(){
     this.style.backgroundColor = "whitesmoke";
     exchangeElements(dropCell, draggable);
     delDraggable();
-    dragArray.forEach(function (item) {
-      let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
+    let inDiv = document.querySelectorAll('div.innerDiv');
+    inDiv.forEach(function (el) {
       el.removeEventListener('dragstart', dragStart);
       el.removeEventListener('dragend', dragEnd);
     });  
-    let dragArrayRemove = fifteen.getCellsForMovement(fifteen.getNull());
     addDraggable();
-    dragArrayRemove.forEach(function (item) {
+    let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
+    dragArrayAdd.forEach(function (item) {
       let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
       el.addEventListener('dragstart', dragStart);
       el.addEventListener('dragend', dragEnd);
