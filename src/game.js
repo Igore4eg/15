@@ -222,12 +222,6 @@ function drag(){
     el.addEventListener('dragend', dragEnd);
   });   
 
-  let delEvent = dragArray.forEach(function (item) {
-    let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
-    el.removeEventListener('dragstart', dragStart);
-    el.removeEventListener('dragend', dragEnd);
-  });  
-
   const dragEnter = function(evt) {
     evt.preventDefault();
     this.style.backgroundColor = "#20B2AA";
@@ -244,8 +238,18 @@ function drag(){
     this.style.backgroundColor = "whitesmoke";
     exchangeElements(dropCell, draggable);
     delDraggable();
-    //delEvent();
+    dragArray.forEach(function (item) {
+      let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
+      el.removeEventListener('dragstart', dragStart);
+      el.removeEventListener('dragend', dragEnd);
+    });  
+    let dragArrayRemove = fifteen.getCellsForMovement(fifteen.getNull());
     addDraggable();
+    dragArrayRemove.forEach(function (item) {
+      let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
+      el.addEventListener('dragstart', dragStart);
+      el.addEventListener('dragend', dragEnd);
+    });   
 
   }
   dropCell.addEventListener('dragenter', dragEnter);
