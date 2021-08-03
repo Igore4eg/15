@@ -142,7 +142,6 @@ window.addEventListener('keydown', function(e) {
   if (result[0]) {
       let el1 = document.querySelector(`[id='${fifteen.order[result[1]].id}']`);
       let el2 = document.querySelector(`[id='${fifteen.order[result[2]].id}']`);
-      let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
       let dragID; 
       let draggable;
 
@@ -155,14 +154,14 @@ window.addEventListener('keydown', function(e) {
       const dragEnd = function() {
         this.style.opacity = "1";
         console.log("dragend:" + dragID)
-      }
+      };
       exchangeElements(el1, el2); 
       delDraggable();
       let inDiv = document.querySelectorAll('div.innerDiv');
       inDiv.forEach(function (el) {
         el.removeEventListener('dragstart', dragStart);
         el.removeEventListener('dragend', dragEnd);
-        console.log("remove")
+        console.log("remove" + el.id);
       }); 
       addDraggable();
       let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
