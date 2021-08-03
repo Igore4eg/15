@@ -65,6 +65,13 @@ const fifteen = {
   },
 };
 
+function exchangeElements(el1, el2) {
+  const parentEl1 = el1.parentNode;
+  const parentEl2 = el2.parentNode;
+  parentEl1.appendChild(el2);
+  parentEl2.appendChild(el1);
+}
+
 let image = new Image();
 
 const importImage = document.body.appendChild(document.createElement('input'));
@@ -141,32 +148,12 @@ window.addEventListener('keydown', function(e) {
       exchangeElements(el1, el2); 
       delDraggable();
       addDraggable();
-      let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
-      let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
-      let dragID; 
-      let draggable;
-    
-      const dragStart = function() {
-        this.style.opacity = "0.5";
-        dragID = this.id;
-        draggable = this;
-        console.log("dragstart;" + dragID)
-      };
-      const dragEnd = function() {
-        this.style.opacity = "1";
-      }
-      dragArray.forEach(function (item) {
-        let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
-        el.addEventListener('dragstart', dragStart);
-        el.addEventListener('dragend', dragEnd);
-      }); 
       if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
         window.removeEventListener('keydown', arguments.callee); 
       }
   }
 });
-
 
 function draw() {
   let k = 1;
@@ -213,33 +200,33 @@ function delDraggable() {
   inDiv.forEach(el => {el.draggable = false})
 }
 
-function exchangeElements(el1, el2) {
-  const parentEl1 = el1.parentNode;
-  const parentEl2 = el2.parentNode;
-  parentEl1.appendChild(el2);
-  parentEl2.appendChild(el1);
-}
-
 function drag(){
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
   let dragID; 
   let draggable;
 
-/*   const dragStart = function() {
+  const dragStart = function() {
     this.style.opacity = "0.5";
     dragID = this.id;
     draggable = this;
-    console.log("dragstart;" + dragID)
+    console.log("dragstart:" + dragID)
   };
   const dragEnd = function() {
     this.style.opacity = "1";
+    console.log("dragend:" + dragID)
   }
   dragArray.forEach(function (item) {
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
     el.addEventListener('dragstart', dragStart);
     el.addEventListener('dragend', dragEnd);
-  });   */
+  });   
+
+  let delEvent = dragArray.forEach(function (item) {
+    let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
+    el.removeEventListener('dragstart', dragStart);
+    el.removeEventListener('dragend', dragEnd);
+  });  
 
   const dragEnter = function(evt) {
     evt.preventDefault();
@@ -250,16 +237,16 @@ function drag(){
   }
   const dragOver = function(evt) {
     evt.preventDefault();
+    
   }
   const dragDrop = function(){
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
     this.style.backgroundColor = "whitesmoke";
     exchangeElements(dropCell, draggable);
-    console.log(dropCell.id, draggable.id);
     delDraggable();
-    console.log(dropCell.id, draggable.id);
+    //delEvent();
     addDraggable();
-    console.log(dropCell.id, draggable.id);
+
   }
   dropCell.addEventListener('dragenter', dragEnter);
   dropCell.addEventListener('dragleave', dragLeave);
