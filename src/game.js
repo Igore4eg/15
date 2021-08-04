@@ -121,18 +121,26 @@ function cutImageUp(elem) {
     }
   }
   fifteen.order[15].id = 0;
-  fifteen.order[15].data = 0;
+  fifteen.order[15].data = null;
 } 
 
 const box = document.body.appendChild(document.createElement('div'));
 
 box.setAttribute("id", "box");
-box.setAttribute("style", "margin-top: 20px; width: 456px; border: solid 1px transparent;");
+box.style.marginTop = "20px";
+box.style.width = "456px";
+box.style.border = "solid 1px transparent";
 for (let i = 0; i < 16; i++) {
   let outDiv = box.appendChild(document.createElement('div'));
   outDiv.setAttribute("class", "outerDiv");
-    
-  outDiv.setAttribute("style", "display: inline-block; width: 100px; height: 100px; border: solid 2px gray; margin: 2px; text-align: center; background-color: whitesmoke; box-sizing: border-box");
+  outDiv.style.display = "inline-block";
+  outDiv.style.width = "100px";
+  outDiv.style.height = "100px";
+  outDiv.style.border = "solid 2px gray";
+  outDiv.style.margin = "2px";
+  outDiv.style.textAlign = "center";
+  outDiv.style.backgroundColor = "whitesmoke";
+  outDiv.style.boxSizing = "border-box";
   let inDiv = outDiv.appendChild(document.createElement('div'));
   inDiv.setAttribute("class", "innerDiv");
 };
@@ -142,26 +150,14 @@ window.addEventListener('keydown', function(e) {
   if (result[0]) {
       let el1 = document.querySelector(`[id='${fifteen.order[result[1]].id}']`);
       let el2 = document.querySelector(`[id='${fifteen.order[result[2]].id}']`);
-      let dragID; 
-      let draggable;
 
-      const dragStart = function() {
-        this.style.opacity = "0.5";
-        dragID = this.id;
-        draggable = this;
-        console.log("dragstart:" + dragID)
-      };
-      const dragEnd = function() {
-        this.style.opacity = "1";
-        console.log("dragend:" + dragID)
-      };
       exchangeElements(el1, el2); 
       delDraggable();
+
       let inDiv = document.querySelectorAll('div.innerDiv');
       inDiv.forEach(function (el) {
         el.removeEventListener('dragstart', dragStart);
         el.removeEventListener('dragend', dragEnd);
-        console.log("remove" + el.id);
       }); 
       addDraggable();
       let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
@@ -225,24 +221,18 @@ function delDraggable() {
   })
 }
 
+const dragStart = function() {
+  this.style.opacity = "0.5";
+};
+const dragEnd = function() {
+  this.style.opacity = "1";
+};
 
 
 function drag(){
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
-  let dragID; 
-  let draggable;
 
-  const dragStart = function() {
-    this.style.opacity = "0.5";
-    dragID = this.id;
-    draggable = this;
-    console.log("dragstart:" + dragID)
-  };
-  const dragEnd = function() {
-    this.style.opacity = "1";
-    console.log("dragend:" + dragID)
-  }
   dragArray.forEach(function (item) {
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
     el.addEventListener('dragstart', dragStart);
