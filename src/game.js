@@ -221,15 +221,16 @@ function delDraggable() {
   })
 }
 
-const dragStart = function(ev) {
+const dragStart = function() {
   this.style.opacity = "0.5";
   const dragId = this.id;
   console.log(dragId);
+   
   return {
     getId: function() {
       return dragId;
-    } 
-  };
+    }
+  };  
 };
 const dragEnd = function() {
   this.style.opacity = "1";
@@ -258,6 +259,7 @@ function drag(){
   }
   const dragDrop = function(){
     const dragID = dragStart.getId();
+    console.log(dragID);
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
     this.style.backgroundColor = "whitesmoke";
     exchangeElements(dropCell, draggable);
