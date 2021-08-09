@@ -153,6 +153,7 @@ for (let i = 0; i < 16; i++) {
 };
 let scoreOutput = box.appendChild(document.createElement('input'));
 scoreOutput.value = scores;
+scoreOutput.setAttribute("readonly", true);
 
 window.addEventListener('keydown', function(e) {
   const result = fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]);
