@@ -221,16 +221,17 @@ function delDraggable() {
   })
 }
 
-const dragStart = function() {
+const dragStart = function(e) {
   this.style.opacity = "0.5";
-  const dragId = this.id;
+  console.log(e.target.id);
+  e.dataTransfer.setData("text", e.target.id);
+/*const dragId = this.id;
   console.log(dragId);
-   
   return {
     getId: function() {
       return dragId;
     }
-  };  
+  };  */ 
 };
 const dragEnd = function() {
   this.style.opacity = "1";
@@ -257,9 +258,10 @@ function drag(){
   const dragOver = function(evt) {
     evt.preventDefault();
   }
-  const dragDrop = function(){
-    const dragID = dragStart.getId();
+  const dragDrop = function(e){
+    const dragID = e.dataTransfer.getData("text");;
     console.log(dragID);
+    let draggable = document.querySelector(`[id='${dragID}']`);
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
     this.style.backgroundColor = "whitesmoke";
     exchangeElements(dropCell, draggable);
