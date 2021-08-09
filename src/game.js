@@ -65,12 +65,19 @@ const fifteen = {
   },
 };
 
+let scores = 0;
+
 function exchangeElements(el1, el2) {
   const parentEl1 = el1.parentNode;
   const parentEl2 = el2.parentNode;
   parentEl1.appendChild(el2);
   parentEl2.appendChild(el1);
+  scores++
+  console.log(scores);
+  scoreOutput.value = scores;
 }
+
+
 
 let image = new Image();
 
@@ -144,6 +151,8 @@ for (let i = 0; i < 16; i++) {
   let inDiv = outDiv.appendChild(document.createElement('div'));
   inDiv.setAttribute("class", "innerDiv");
 };
+let scoreOutput = box.appendChild(document.createElement('input'));
+scoreOutput.value = scores;
 
 window.addEventListener('keydown', function(e) {
   const result = fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]);
