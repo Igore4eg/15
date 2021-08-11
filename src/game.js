@@ -73,7 +73,6 @@ function exchangeElements(el1, el2) {
   parentEl1.appendChild(el2);
   parentEl2.appendChild(el1);
   scores++
-  console.log(scores);
   scoreOutput.value = scores;
 }
 
@@ -85,7 +84,7 @@ const importImage = document.body.appendChild(document.createElement('input'));
 importImage.type = "file";
 importImage.id = 'inputFile';
 importImage.accept = ".png, .jpg, .jpeg";
-importImage.onchange = startGame;
+importImage.addEventListener("change", startGame);
 
 async function inputFile() {
   return new Promise((resolve, reject) => {
@@ -107,6 +106,7 @@ async function startGame(){
   try {
     await inputFile();
     cutImageUp(image);
+    importImage.hidden = true;
     fifteen.mix();
     draw();
     drag();
@@ -151,9 +151,14 @@ for (let i = 0; i < 16; i++) {
   let inDiv = outDiv.appendChild(document.createElement('div'));
   inDiv.setAttribute("class", "innerDiv");
 };
-let scoreOutput = box.appendChild(document.createElement('input'));
+let scoreOutput = document.createElement('input');
+scoreOutput.setAttribute("class", "score");
+box.after(scoreOutput);
 scoreOutput.value = scores;
 scoreOutput.setAttribute("readonly", true);
+
+let mixGame = document.createElement("button");
+
 
 window.addEventListener('keydown', function(e) {
   const result = fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]);
@@ -163,12 +168,7 @@ window.addEventListener('keydown', function(e) {
 
       exchangeElements(el1, el2); 
       delDraggable();
-
-      let inDiv = document.querySelectorAll('div.innerDiv');
-      inDiv.forEach(function (el) {
-        el.removeEventListener('dragstart', dragStart);
-        el.removeEventListener('dragend', dragEnd);
-      }); 
+      removeAllEventDrag(); 
       addDraggable();
       let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
       dragArrayAdd.forEach(function (item) {
@@ -179,7 +179,9 @@ window.addEventListener('keydown', function(e) {
 
       if (fifteen.isCompleted(fifteen.order)) {
         box.style.backgroundColor = "gold";
-        window.removeEventListener('keydown', arguments.callee); 
+        window.removeEventListener('keydown', arguments.callee);
+        delDraggable();
+        removeAllEventDrag();
       }
   }
 });
@@ -233,18 +235,19 @@ function delDraggable() {
 
 const dragStart = function(e) {
   this.style.opacity = "0.5";
-  console.log(e.target.id);
   e.dataTransfer.setData("text", e.target.id);
-/*const dragId = this.id;
-  console.log(dragId);
-  return {
-    getId: function() {
-      return dragId;
-    }
-  };  */ 
+
 };
 const dragEnd = function() {
   this.style.opacity = "1";
+};
+
+const removeAllEventDrag = function() {
+  let inDiv = document.querySelectorAll('div.innerDiv');
+  inDiv.forEach(function (el) {
+    el.removeEventListener('dragstart', dragStart);
+    el.removeEventListener('dragend', dragEnd);
+  }); 
 };
 
 
@@ -270,25 +273,25 @@ function drag(){
   }
   const dragDrop = function(e){
     const dragID = e.dataTransfer.getData("text");;
-    console.log(dragID);
     let draggable = document.querySelector(`[id='${dragID}']`);
     fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
     this.style.backgroundColor = "whitesmoke";
     exchangeElements(dropCell, draggable);
     delDraggable();
-    let inDiv = document.querySelectorAll('div.innerDiv');
-    inDiv.forEach(function (el) {
-      el.removeEventListener('dragstart', dragStart);
-      el.removeEventListener('dragend', dragEnd);
-    });  
+    removeAllEventDrag();
     addDraggable();
     let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
     dragArrayAdd.forEach(function (item) {
       let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
       el.addEventListener('dragstart', dragStart);
       el.addEventListener('dragend', dragEnd);
-    });   
-
+    });
+    if (fifteen.isCompleted(fifteen.order)) {
+      box.style.backgroundColor = "gold";
+      window.removeEventListener('keydown', arguments.callee); 
+      delDraggable();
+      removeAllEventDrag();
+    }
   }
   dropCell.addEventListener('dragenter', dragEnter);
   dropCell.addEventListener('dragleave', dragLeave);
