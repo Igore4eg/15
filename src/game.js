@@ -110,6 +110,7 @@ async function startGame(){
     fifteen.mix();
     draw();
     drag();
+    mixGame.hidden = false;
   }catch(e) {
     console.log(e);
   }
@@ -152,13 +153,24 @@ for (let i = 0; i < 16; i++) {
   inDiv.setAttribute("class", "innerDiv");
 };
 let scoreOutput = document.createElement('input');
-scoreOutput.setAttribute("class", "score");
+scoreOutput.setAttribute("id", "score");
 box.after(scoreOutput);
 scoreOutput.value = scores;
 scoreOutput.setAttribute("readonly", true);
 
 let mixGame = document.createElement("button");
-
+mixGame.setAttribute("id", "mixGame");
+mixGame.innerHTML = "Mix";
+mixGame.hidden = true;
+scoreOutput.after(mixGame);
+mixGame.onclick = function() { 
+  fifteen.mix();
+  draw();
+  delDraggable();
+  addDraggable();
+  
+  scoreOutput.value = 0;
+};
 
 window.addEventListener('keydown', function(e) {
   const result = fifteen.go(fifteen.Move[{37: 'left', 39: 'right', 38: 'up', 40: 'down'}[e.keyCode]]);
@@ -254,6 +266,8 @@ const removeAllEventDrag = function() {
 function drag(){
   let dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
   let dragArray = fifteen.getCellsForMovement(fifteen.getNull());
+  let inDiv = document.querySelectorAll('div.innerDiv');
+  
 
   dragArray.forEach(function (item) {
     let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
@@ -292,7 +306,8 @@ function drag(){
       delDraggable();
       removeAllEventDrag();
     }
-  }
+  };
+
   dropCell.addEventListener('dragenter', dragEnter);
   dropCell.addEventListener('dragleave', dragLeave);
   dropCell.addEventListener('dragover', dragOver);
