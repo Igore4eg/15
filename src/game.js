@@ -165,10 +165,12 @@ mixGame.hidden = true;
 scoreOutput.after(mixGame);
 mixGame.onclick = function() { 
   fifteen.mix();
+  removeAllEventDrag();
+  console.log("removeallevent")
   draw();
   delDraggable();
   addDraggable();
-  
+  drag();
   scoreOutput.value = 0;
 };
 
@@ -180,7 +182,7 @@ window.addEventListener('keydown', function(e) {
 
       exchangeElements(el1, el2); 
       delDraggable();
-      removeAllEventDrag(); 
+      //removeAllEventDrag(); 
       addDraggable();
       let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
       dragArrayAdd.forEach(function (item) {
@@ -259,7 +261,45 @@ const removeAllEventDrag = function() {
   inDiv.forEach(function (el) {
     el.removeEventListener('dragstart', dragStart);
     el.removeEventListener('dragend', dragEnd);
+    el.removeEventListener('dragenter', dragEnter);
+    el.removeEventListener('dragleave', dragLeave);
+    el.removeEventListener('dragover', dragOver);
+    el.removeEventListener('drop', dragDrop);
   }); 
+};
+
+const dragEnter = function(evt) {
+  evt.preventDefault();
+  this.style.backgroundColor = "#20B2AA";
+}
+const dragLeave = function() {
+  this.style.backgroundColor = "whitesmoke";
+}
+const dragOver = function(evt) {
+  evt.preventDefault();
+}
+const dragDrop = function(e){
+  const dropCell = document.querySelector(`[id='${fifteen.order[fifteen.getNull()].id}']`);
+  const dragID = e.dataTransfer.getData("text");;
+  let draggable = document.querySelector(`[id='${dragID}']`);
+  fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
+  this.style.backgroundColor = "whitesmoke";
+  exchangeElements(dropCell, draggable);
+  delDraggable();
+  removeAllEventDrag();
+  addDraggable();
+  let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
+  dragArrayAdd.forEach(function (item) {
+    let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
+    el.addEventListener('dragstart', dragStart);
+    el.addEventListener('dragend', dragEnd);
+  });
+  if (fifteen.isCompleted(fifteen.order)) {
+    box.style.backgroundColor = "gold";
+    window.removeEventListener('keydown', arguments.callee); 
+    delDraggable();
+    removeAllEventDrag();
+  }
 };
 
 
@@ -274,39 +314,6 @@ function drag(){
     el.addEventListener('dragstart', dragStart);
     el.addEventListener('dragend', dragEnd);
   });   
-
-  const dragEnter = function(evt) {
-    evt.preventDefault();
-    this.style.backgroundColor = "#20B2AA";
-  }
-  const dragLeave = function() {
-    this.style.backgroundColor = "whitesmoke";
-  }
-  const dragOver = function(evt) {
-    evt.preventDefault();
-  }
-  const dragDrop = function(e){
-    const dragID = e.dataTransfer.getData("text");;
-    let draggable = document.querySelector(`[id='${dragID}']`);
-    fifteen.swap(fifteen.getNull(), fifteen.findIndex(dragID));
-    this.style.backgroundColor = "whitesmoke";
-    exchangeElements(dropCell, draggable);
-    delDraggable();
-    removeAllEventDrag();
-    addDraggable();
-    let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
-    dragArrayAdd.forEach(function (item) {
-      let el = document.querySelector(`[id='${fifteen.order[item].id}']`);
-      el.addEventListener('dragstart', dragStart);
-      el.addEventListener('dragend', dragEnd);
-    });
-    if (fifteen.isCompleted(fifteen.order)) {
-      box.style.backgroundColor = "gold";
-      window.removeEventListener('keydown', arguments.callee); 
-      delDraggable();
-      removeAllEventDrag();
-    }
-  };
 
   dropCell.addEventListener('dragenter', dragEnter);
   dropCell.addEventListener('dragleave', dragLeave);
