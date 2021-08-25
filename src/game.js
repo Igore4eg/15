@@ -135,20 +135,20 @@ function cutImageUp(elem) {
 const box = document.body.appendChild(document.createElement('div'));
 
 box.setAttribute("id", "box");
-box.style.marginTop = "20px";
+/* box.style.marginTop = "20px";
 box.style.width = "456px";
-box.style.border = "solid 1px transparent";
+box.style.border = "solid 1px transparent"; */
 for (let i = 0; i < 16; i++) {
   let outDiv = box.appendChild(document.createElement('div'));
   outDiv.setAttribute("class", "outerDiv");
-  outDiv.style.display = "inline-block";
+  /* outDiv.style.display = "inline-block";
   outDiv.style.width = "100px";
   outDiv.style.height = "100px";
   outDiv.style.border = "solid 2px gray";
   outDiv.style.margin = "2px";
   outDiv.style.textAlign = "center";
   outDiv.style.backgroundColor = "whitesmoke";
-  outDiv.style.boxSizing = "border-box";
+  outDiv.style.boxSizing = "border-box"; */
   let inDiv = outDiv.appendChild(document.createElement('div'));
   inDiv.setAttribute("class", "innerDiv");
 };
@@ -181,8 +181,7 @@ window.addEventListener('keydown', function(e) {
       let el2 = document.querySelector(`[id='${fifteen.order[result[2]].id}']`);
 
       exchangeElements(el1, el2); 
-      delDraggable();
-      //removeAllEventDrag(); 
+      delDraggable(); 
       addDraggable();
       let dragArrayAdd = fifteen.getCellsForMovement(fifteen.getNull());
       dragArrayAdd.forEach(function (item) {

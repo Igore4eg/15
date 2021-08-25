@@ -25,6 +25,8 @@ function serve(){
         online: true
     });
     browserSync.watch('src/**/*.*').on('change', browserSync.reload);
+    browserSync.watch('docs/**/*.*').on('change', browserSync.reload);
+
 }
 
 function compress(){
